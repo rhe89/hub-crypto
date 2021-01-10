@@ -82,12 +82,6 @@ namespace CoinbasePro.BackgroundTasks
                     continue;
                 }
 
-                if (correspondingCoinbaseProAccount.Balance == 0)
-                {
-                    _logger.LogInformation($"Assets is 0. Skipping account {dbAccount.Currency}.");
-                    continue;
-                }
-
                 var existingAsset = assets.FirstOrDefault(x =>
                     x.CreatedDate.Date == DateTime.Now.Date &&
                     x.AccountId == dbAccount.Id);

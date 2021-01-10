@@ -1,0 +1,37 @@
+# ASP.NET Core
+
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: Bash@3
+  displayName: "Create docker files"
+  inputs:
+    filePath: 'scripts/create_docker_files.sh'
+    arguments: '$($PAT)'
+
+- task: DockerCompose@0
+  displayName: "docker-compose build"
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: 'docker-hub'
+    dockerComposeFile: '**/docker-compose.yml'
+    action: 'Build services'
+
+- task: DockerCompose@0
+  displayName: "docker-compose push"
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: 'docker-hub'
+    dockerComposeFile: '**/docker-compose.yml'
+    action: 'Push services'

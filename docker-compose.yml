@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+    coinbase-workers:
+        container_name: "coinbase_pro_worker"
+        build:
+            context: ./
+            dockerfile: CoinbasePro.BackgroundWorker/Dockerfile
+        image: "rhe89/hub-coinbase-pro-worker"
+
+    coinbase-api:
+        container_name: "coinbase_pro_api"
+        build: 
+            context: ./
+            dockerfile: CoinbasePro.Web.Api/Dockerfile
+        image: "rhe89/hub-coinbase-pro-api"

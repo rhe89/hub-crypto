@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinbasePro.Data", "CoinbasePro.Data\CoinbasePro.Data.csproj", "{835274EC-FDA8-4275-9C53-B432B5AC95E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinbasePro.Core", "CoinbasePro.Core\CoinbasePro.Core.csproj", "{E9C6EF3E-6FB4-4478-B969-E1559E4DA9AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workers", "Workers", "{57107B30-C7B0-42A3-9101-9BBF014E5B20}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{8B2C84FF-FC76-4B2C-84C9-2C2C6FA6A02F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinbasePro.Web.Api", "CoinbasePro.Web.Api\CoinbasePro.Web.Api.csproj", "{02615AEF-5049-4B40-A35D-E76C4E1EF0FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinbasePro.BackgroundTasks", "CoinbasePro.BackgroundTasks\CoinbasePro.BackgroundTasks.csproj", "{9BD4621C-BD63-4913-80BD-EF9D9C4821B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinbasePro.BackgroundWorker", "CoinbasePro.BackgroundWorker\CoinbasePro.BackgroundWorker.csproj", "{FD9F762A-DB7A-4BCE-99B8-EA2460CD93EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinbasePro.Providers", "CoinbasePro.Providers\CoinbasePro.Providers.csproj", "{AE696EA0-C743-4AB0-8064-832F6CB3C782}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinbasePro.Integration", "CoinbasePro.Integration\CoinbasePro.Integration.csproj", "{C14561F6-482C-4307-9CD3-2D74F2D38297}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{835274EC-FDA8-4275-9C53-B432B5AC95E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{835274EC-FDA8-4275-9C53-B432B5AC95E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{835274EC-FDA8-4275-9C53-B432B5AC95E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{835274EC-FDA8-4275-9C53-B432B5AC95E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9C6EF3E-6FB4-4478-B969-E1559E4DA9AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9C6EF3E-6FB4-4478-B969-E1559E4DA9AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9C6EF3E-6FB4-4478-B969-E1559E4DA9AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9C6EF3E-6FB4-4478-B969-E1559E4DA9AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02615AEF-5049-4B40-A35D-E76C4E1EF0FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02615AEF-5049-4B40-A35D-E76C4E1EF0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02615AEF-5049-4B40-A35D-E76C4E1EF0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02615AEF-5049-4B40-A35D-E76C4E1EF0FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BD4621C-BD63-4913-80BD-EF9D9C4821B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BD4621C-BD63-4913-80BD-EF9D9C4821B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BD4621C-BD63-4913-80BD-EF9D9C4821B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BD4621C-BD63-4913-80BD-EF9D9C4821B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD9F762A-DB7A-4BCE-99B8-EA2460CD93EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD9F762A-DB7A-4BCE-99B8-EA2460CD93EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD9F762A-DB7A-4BCE-99B8-EA2460CD93EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD9F762A-DB7A-4BCE-99B8-EA2460CD93EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE696EA0-C743-4AB0-8064-832F6CB3C782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE696EA0-C743-4AB0-8064-832F6CB3C782}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE696EA0-C743-4AB0-8064-832F6CB3C782}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE696EA0-C743-4AB0-8064-832F6CB3C782}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C14561F6-482C-4307-9CD3-2D74F2D38297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C14561F6-482C-4307-9CD3-2D74F2D38297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C14561F6-482C-4307-9CD3-2D74F2D38297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C14561F6-482C-4307-9CD3-2D74F2D38297}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02615AEF-5049-4B40-A35D-E76C4E1EF0FA} = {8B2C84FF-FC76-4B2C-84C9-2C2C6FA6A02F}
+		{9BD4621C-BD63-4913-80BD-EF9D9C4821B7} = {57107B30-C7B0-42A3-9101-9BBF014E5B20}
+		{FD9F762A-DB7A-4BCE-99B8-EA2460CD93EA} = {57107B30-C7B0-42A3-9101-9BBF014E5B20}
+	EndGlobalSection
+EndGlobal

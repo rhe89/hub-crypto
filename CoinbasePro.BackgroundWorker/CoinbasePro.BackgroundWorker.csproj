@@ -6,7 +6,6 @@
 
     <ItemGroup>
       <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
-      <PackageReference Include="Hub.HostedServices" Version="2.0.12" />
     </ItemGroup>
 
     <ItemGroup>

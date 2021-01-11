@@ -18,7 +18,7 @@ namespace CoinbasePro.BackgroundWorker
     {
         protected override void AddDomainDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            serviceCollection.TryAddSingleton<IBackgroundTask, UpdateAccountsTask>();
+            serviceCollection.AddSingleton<IBackgroundTask, UpdateAccountsTask>();
             serviceCollection.TryAddSingleton<ICoinbaseProConnector, CoinbaseProConnector>();
             serviceCollection.AddHttpClient<ICoinbaseApiConnector, CoinbaseApiConnector>(client =>
                 client.BaseAddress = new Uri(configuration.GetValue<string>("COINBASE_API_HOST")));

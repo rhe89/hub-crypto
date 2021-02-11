@@ -7,7 +7,7 @@
     <ItemGroup>
       <PackageReference Include="GDAX.Api.ClientLibrary" Version="1.0.43" />
       <PackageReference Include="Hub.Storage.Core" Version="1.0.9" />
-      <PackageReference Include="Hub.Web.Http" Version="2.0.12" />
+      <PackageReference Include="Hub.Web.Http" Version="3.0.1" />
     </ItemGroup>
 
 </Project>

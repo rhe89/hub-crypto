@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -65,6 +66,8 @@ namespace CoinbasePro.BackgroundTasks
 
             var coinbaseProAccounts = await _coinbaseProConnector.GetAccounts();
 
+            var exchangeRates = await GetExchangeRates();
+
             var accountsCount = accountsInDb.Count;
 
             var counter = 1;
@@ -86,7 +89,12 @@ namespace CoinbasePro.BackgroundTasks
                     x.CreatedDate.Date == DateTime.Now.Date &&
                     x.AccountId == dbAccount.Id);
 
-                var exchangeRateInNok = await GetExchangeRateInNok(dbAccount.Currency);
+                var exchangeRateInNok = exchangeRates.FirstOrDefault(x => x.Currency == dbAccount.Currency)?.NOKRate;
+
+                if (exchangeRateInNok == null)
+                {
+                    exchangeRateInNok = await GetExchangeRateInNok(dbAccount.Currency);
+                }
                 
                 var valueInNok = (int) (correspondingCoinbaseProAccount.Balance * exchangeRateInNok);
                 
@@ -115,12 +123,46 @@ namespace CoinbasePro.BackgroundTasks
             _logger.LogInformation($"Done updating cryptocurrencies.");
         }
 
-        private async Task<decimal> GetExchangeRateInNok(string currency)
+        private async Task<IList<ExchangeRateDto>> GetExchangeRates()
         {
-            Response<ExchangeRatesDto> exchangeRates;
+            Response<IList<ExchangeRateDto>> exchangeRates;
             try
             {
-                exchangeRates = await _coinbaseApiConnector.GetExchangeRates(currency);
+                exchangeRates = await _coinbaseApiConnector.GetExchangeRates();
+            }
+            catch (Exception e)
+            {
+                throw new CoinbaseApiConnectorException(
+                    $"Error occured when getting exchange rates from Coinbase API", e);
+            }
+            
+            if (exchangeRates.StatusCode != HttpStatusCode.OK)
+            {
+                throw new CoinbaseApiConnectorException(
+                    $"Error occured when getting exchange rates from Coinbase API. Status code: {exchangeRates.StatusCode}");
+            }
+
+            if (!exchangeRates.Success)
+            {
+                throw new CoinbaseApiConnectorException(
+                    $"Error occured when getting exchange rates from Coinbase API. Error message: {exchangeRates.ErrorMessage}");
+            }
+            
+            if (exchangeRates.Data == null)
+            {
+                throw new CoinbaseApiConnectorException(
+                    $"Error occured when getting exchange rates from Coinbase API. exchangeRates?.Data?.Rates was null");
+            }
+            
+            return exchangeRates.Data;
+        }
+        
+        private async Task<decimal> GetExchangeRateInNok(string currency)
+        {
+            Response<ExchangeRateDto> exchangeRates;
+            try
+            {
+                exchangeRates = await _coinbaseApiConnector.GetExchangeRate(currency);
             }
             catch (Exception e)
             {
@@ -139,24 +181,14 @@ namespace CoinbasePro.BackgroundTasks
                 throw new CoinbaseApiConnectorException(
                     $"Error occured when getting exchange rates for {currency} from Coinbase API. Status code: {exchangeRates.StatusCode}");
             }
-
-
-            if (exchangeRates.Data?.Rates == null)
+            
+            if (exchangeRates.Data?.NOKRate == null)
             {
                 throw new CoinbaseApiConnectorException(
                     $"Error occured when getting exchange rates for {currency} from Coinbase API. exchangeRates?.Data?.Rates was null");
             }
 
-            var hasExchangeRateInNok = exchangeRates.Data.Rates.TryGetValue("NOK", out var exchangeRateInNok);
-
-            if (!hasExchangeRateInNok)
-            {
-                throw new CoinbaseApiConnectorException(
-                    $"Error occured when getting exchange rates for {currency} from Coinbase API. No exchange rate in NOK exists.");
-            }
-            
-            return exchangeRateInNok;
-            
+            return exchangeRates.Data.NOKRate;
         }
     }
 }

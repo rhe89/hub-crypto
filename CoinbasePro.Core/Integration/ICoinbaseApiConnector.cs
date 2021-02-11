@@ -7,6 +7,7 @@ namespace CoinbasePro.Core.Integration
 {
     public interface ICoinbaseApiConnector
     {
-        Task<Response<ExchangeRatesDto>> GetExchangeRates(string currency);
+        Task<Response<IList<ExchangeRateDto>>> GetExchangeRates();
+        Task<Response<ExchangeRateDto>> GetExchangeRate(string currency);
     }
 }

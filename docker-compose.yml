@@ -19,5 +19,5 @@ services:
         container_name: "coinbase_pro_api"
         build: 
             context: ./
-            dockerfile: coinbasePro.Web.Api/Dockerfile
+            dockerfile: CoinbasePro.Web.Api/Dockerfile
         image: "rhe89/hub-coinbase-pro-api"

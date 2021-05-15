@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+	</PropertyGroup>
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <PackageReference Include="GDAX.Api.ClientLibrary" Version="1.0.43" />
-      <PackageReference Include="Hub.Storage.Core" Version="3.0.3" />
-      <PackageReference Include="Hub.Web.Http" Version="3.0.1" />
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="GDAX.Api.ClientLibrary" Version="1.0.43" />
+		<PackageReference Include="Hub.Storage.Repository.Dto" Version="3.0.6" />
+		<PackageReference Include="Hub.Storage.Repository.Entities" Version="3.0.6" />
+		<PackageReference Include="Hub.Web.Http" Version="3.0.6" />
+	</ItemGroup>
 
 </Project>

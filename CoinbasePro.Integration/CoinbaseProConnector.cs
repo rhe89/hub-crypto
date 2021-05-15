@@ -7,7 +7,7 @@ using CoinbasePro.Core.Exceptions;
 using CoinbasePro.Core.Integration;
 using CoinbasePro.Network.Authentication;
 using CoinbasePro.Services.Accounts.Models;
-using Hub.Storage.Core.Providers;
+using Hub.Settings.Core;
 
 namespace CoinbasePro.Integration
 {
@@ -17,9 +17,9 @@ namespace CoinbasePro.Integration
 
         public CoinbaseProConnector(ISettingProvider settingProvider)
         {
-            var apiKey = settingProvider.GetSetting<string>(SettingConstants.CoinbaseProApiKey);
-            var apiSecret = settingProvider.GetSetting<string>(SettingConstants.CoinbaseProApiSecret);
-            var passPhrase = settingProvider.GetSetting<string>(SettingConstants.CoinbaseProPassphrase);
+            var apiKey = settingProvider.GetSetting<string>(SettingKeys.CoinbaseProApiKey);
+            var apiSecret = settingProvider.GetSetting<string>(SettingKeys.CoinbaseProApiSecret);
+            var passPhrase = settingProvider.GetSetting<string>(SettingKeys.CoinbaseProPassphrase);
             
             _authenticator = new Authenticator(apiKey, apiSecret, passPhrase);
         }

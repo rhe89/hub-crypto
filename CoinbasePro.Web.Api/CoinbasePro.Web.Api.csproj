@@ -1,19 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
 
-    <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-    </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Hub.Web.Api" Version="3.0.6" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+	</ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\CoinbasePro.BackgroundTasks\CoinbasePro.BackgroundTasks.csproj" />
-      <ProjectReference Include="..\CoinbasePro.Data\CoinbasePro.Data.csproj" />
-      <ProjectReference Include="..\CoinbasePro.Integration\CoinbasePro.Integration.csproj" />
-      <ProjectReference Include="..\CoinbasePro.Providers\CoinbasePro.Providers.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
-      <PackageReference Include="Hub.Web.Api" Version="3.0.3" />
-    </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\CoinbasePro.Data\CoinbasePro.Data.csproj" />
+		<ProjectReference Include="..\CoinbasePro.Providers\CoinbasePro.Providers.csproj" />
+	</ItemGroup>
 
 </Project>

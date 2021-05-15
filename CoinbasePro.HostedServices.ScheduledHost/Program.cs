@@ -1,14 +1,14 @@
 using CoinbasePro.Data;
-using Hub.HostedServices.TimerHost;
+using Hub.HostedServices.Schedule;
 using Microsoft.Extensions.Hosting;
 
-namespace CoinbasePro.BackgroundWorker
+namespace CoinbasePro.HostedServices.ScheduledHost
 {
     public static class Program
     {
         public static void Main(string[] args)
         {
-            new BackgroundWorker<DependencyRegistrationFactory, CoinbaseProDbContext>(args,"SQL_DB_COINBASE_PRO")
+            new Bootstrapper<DependencyRegistrationFactory, CoinbaseProDbContext>(args,"SQL_DB_COINBASE_PRO")
                 .CreateHostBuilder()
                 .Build()
                 .Run();

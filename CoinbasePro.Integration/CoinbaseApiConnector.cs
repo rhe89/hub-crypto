@@ -10,7 +10,7 @@ namespace CoinbasePro.Integration
     public class CoinbaseApiConnector : HttpClientService, ICoinbaseApiConnector
     {
         private const string ExchangeRatePath = "/api/exchangerates/exchangerate";
-        private const string ExchangeRatesPath = "/api/exchangerates/exchangerates";
+        private const string ExchangeRatesPath = "/api/exchangerates";
         
         public CoinbaseApiConnector(HttpClient httpClient) : base(httpClient, "CoinbaseApi") {}
         

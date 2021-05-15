@@ -22,7 +22,7 @@ namespace CoinbasePro.Web.Api.Services
             return assets
                 .Select(x => new AssetDto
                 {
-                    Currency = x.Account.Currency,
+                    Currency = x.Account?.Currency,
                     Value = x.Value,
                     CreatedDate = x.CreatedDate
                 })

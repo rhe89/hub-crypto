@@ -2,53 +2,40 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using CoinbasePro.Core.Dto.Data;
 using CoinbasePro.Core.Dto.Integration;
 using CoinbasePro.Core.Entities;
 using CoinbasePro.Core.Exceptions;
 using CoinbasePro.Core.Integration;
-using Hub.HostedServices.Tasks;
-using Hub.Storage.Core.Factories;
-using Hub.Storage.Core.Providers;
-using Hub.Storage.Core.Repository;
+using Hub.Storage.Repository.Core;
 using Hub.Web.Http;
 using Microsoft.Extensions.Logging;
 
-namespace CoinbasePro.BackgroundTasks
+namespace CoinbasePro.HostedServices.ServiceBusQueueHost.CommandHandlers
 {
-    public class UpdateAccountsTask : BackgroundTask
+    public class UpdateCoinbaseProAccountsCommandHandler : IUpdateCoinbaseProAccountsCommandHandler
     {
-        private readonly ILogger<UpdateAccountsTask> _logger;
+        private readonly ILogger<UpdateCoinbaseProAccountsCommandHandler> _logger;
         private readonly ICoinbaseProConnector _coinbaseProConnector;
         private readonly ICoinbaseApiConnector _coinbaseApiConnector;
         private readonly IHubDbRepository _dbRepository;
 
-        public UpdateAccountsTask(IBackgroundTaskConfigurationProvider backgroundTaskConfigurationProvider,
-            IBackgroundTaskConfigurationFactory backgroundTaskConfigurationFactory,
-            ILogger<UpdateAccountsTask> logger,
+        public UpdateCoinbaseProAccountsCommandHandler(ILogger<UpdateCoinbaseProAccountsCommandHandler> logger,
             ICoinbaseProConnector coinbaseProConnector,
             ICoinbaseApiConnector coinbaseApiConnector,
-            IHubDbRepository dbRepository) : base(backgroundTaskConfigurationProvider, backgroundTaskConfigurationFactory)
+            IHubDbRepository dbRepository)
         {
             _logger = logger;
             _coinbaseProConnector = coinbaseProConnector;
             _coinbaseApiConnector = coinbaseApiConnector;
             _dbRepository = dbRepository;
         }
-
-        public override async Task Execute(CancellationToken cancellationToken)
-        {
-                await UpdateAccountAssets();
-        }
-
-        private async Task UpdateAccountAssets()
+        
+        public async Task UpdateAccountAssets()
         {
             var accountsInDb = await _dbRepository.AllAsync<Account, AccountDto>();
-
-            var assets = await _dbRepository.AllAsync<Asset, AssetDto>();
-
+            
             var coinbaseProAccounts = await _coinbaseProConnector.GetAccounts();
 
             var exchangeRates = await GetExchangeRates();
@@ -63,7 +50,7 @@ namespace CoinbasePro.BackgroundTasks
 
                 try
                 {
-                    await UpdateAccount(dbAccount, coinbaseProAccounts, assets, exchangeRates);
+                    await UpdateAccount(dbAccount, coinbaseProAccounts, exchangeRates);
                 }
                 catch (Exception e)
                 {
@@ -73,11 +60,10 @@ namespace CoinbasePro.BackgroundTasks
 
             await _dbRepository.ExecuteQueueAsync();
 
-            _logger.LogInformation($"Done updating cryptocurrencies.");
+            _logger.LogInformation("Done updating cryptocurrencies");
         }
 
-        private async Task UpdateAccount(AccountDto dbAccount, IList<Services.Accounts.Models.Account> coinbaseProAccounts, IList<AssetDto> assets,
-            IList<ExchangeRateDto> exchangeRates)
+        private async Task UpdateAccount(AccountDto dbAccount, IList<Services.Accounts.Models.Account> coinbaseProAccounts, IList<ExchangeRateDto> exchangeRates)
         {
 
             var correspondingCoinbaseProAccount =
@@ -89,9 +75,8 @@ namespace CoinbasePro.BackgroundTasks
                 return;
             }
 
-            var existingAsset = assets.FirstOrDefault(x =>
-                x.CreatedDate.Date == DateTime.Now.Date &&
-                x.AccountId == dbAccount.Id);
+            var existingAsset = dbAccount.Assets.FirstOrDefault(x =>
+                x.CreatedDate.Date == DateTime.Now.Date);
 
             var exchangeRateInNok = exchangeRates.FirstOrDefault(x => x.Currency == dbAccount.Currency)?.NOKRate;
 
@@ -134,7 +119,7 @@ namespace CoinbasePro.BackgroundTasks
             catch (Exception e)
             {
                 throw new CoinbaseApiConnectorException(
-                    $"Error occured when getting exchange rates from Coinbase API", e);
+                    "Error occured when getting exchange rates from Coinbase API", e);
             }
             
             if (exchangeRates.StatusCode != HttpStatusCode.OK)
@@ -152,7 +137,7 @@ namespace CoinbasePro.BackgroundTasks
             if (exchangeRates.Data == null)
             {
                 throw new CoinbaseApiConnectorException(
-                    $"Error occured when getting exchange rates from Coinbase API. exchangeRates?.Data?.Rates was null");
+                    "Error occured when getting exchange rates from Coinbase API. exchangeRates?.Data?.Rates was null");
             }
             
             return exchangeRates.Data;

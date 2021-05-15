@@ -1,10 +1,10 @@
 using CoinbasePro.Core.Entities;
-using Hub.Storage.Repository.DatabaseContext;
+using Hub.Storage.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoinbasePro.Data
 {
-    public class CoinbaseProDbContext : HostedServiceDbContext
+    public class CoinbaseProDbContext : HubDbContext
     {
         public CoinbaseProDbContext(DbContextOptions<CoinbaseProDbContext> options) : base(options) { }
         

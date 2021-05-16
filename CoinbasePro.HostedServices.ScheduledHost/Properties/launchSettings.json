@@ -3,7 +3,8 @@
     "CoinbasePro.HostedServices.ScheduledHost": {
       "commandName": "Project",
       "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Development"
+        "DOTNET_ENVIRONMENT": "Development",
+        "DOMAIN": "CoinbasePro"
       }
     }
   }

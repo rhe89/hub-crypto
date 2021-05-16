@@ -2,7 +2,7 @@ namespace CoinbasePro.Core.Constants
 {
     public static class QueueNames
     {
-        public const string CoinbaseProAccountsUpdated = "coinbaseproaccountsupdated";
-        public const string UpdateCoinbaseProAccounts = "updatecoinbaseproaccounts";
+        public static readonly string CoinbaseProAccountsUpdated = "coinbaseproaccountsupdated";
+        public static readonly string UpdateCoinbaseProAccounts = "updatecoinbaseproaccounts";
     }
 }

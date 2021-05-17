@@ -21,6 +21,7 @@ namespace CoinbasePro.HostedServices.ServiceBusQueueHost
         {
             serviceCollection.AddSingleton<IMessageSender, MessageSender>();
             serviceCollection.AddSingleton<IUpdateCoinbaseProAccountsCommandHandler, UpdateCoinbaseProAccountsCommandHandler>();
+            serviceCollection.AddSingleton<IUpdateCoinbaseProAccountBalanceHistoryCommandHandler, UpdateCoinbaseProAccountBalanceHistoryCommandHandler>();
             serviceCollection.AddSingleton<ICoinbaseProConnector, CoinbaseProConnector>();
             serviceCollection.AddHttpClient<ICoinbaseApiConnector, CoinbaseApiConnector>(client =>
                 client.BaseAddress = new Uri(configuration.GetValue<string>("COINBASE_API_HOST")));
@@ -34,8 +35,10 @@ namespace CoinbasePro.HostedServices.ServiceBusQueueHost
         protected override void AddQueueListenerServices(IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.AddTransient<UpdateCoinbaseProAccountsCommand>();
+            serviceCollection.AddTransient<UpdateCoinbaseProAccountBalanceHistoryCommand>();
             
             serviceCollection.AddHostedService<UpdateCoinbaseProAccountsQueueListener>();
+            serviceCollection.AddHostedService<UpdateCoinbaseAccountsBalanceHistoryQueueListener>();
         }
     }
 }

@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using CoinbasePro.Core.Dto.Data;
 
-namespace Coinbase.Core.Providers
+namespace CoinbasePro.Core.Providers
 {
     public interface IAccountProvider
     {
-        Task<IList<AccountDto>> GetAccounts();
+        Task<IList<AccountDto>> GetAccounts(string accountName);
     }
 }

@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Coinbase.Core.Providers;
 using CoinbasePro.Core.Dto.Data;
 using CoinbasePro.Core.Entities;
+using CoinbasePro.Core.Providers;
 using Hub.Storage.Repository.Core;
-using Microsoft.EntityFrameworkCore;
 
 namespace CoinbasePro.Providers
 {
@@ -17,15 +18,15 @@ namespace CoinbasePro.Providers
             _dbRepository = dbRepository;
         }
 
-        public async Task<IList<AccountDto>> GetAccounts()
+        public async Task<IList<AccountDto>> GetAccounts(string accountName)
         {
+            Expression<Func<Account, bool>> predicate = account =>
+                (string.IsNullOrEmpty(accountName) || account.Currency.ToLower().Contains(accountName.ToLower()));
+                
             var accounts = await _dbRepository
-                .AllAsync<Account, AccountDto>(source => source
-                    .Include(x => x.Assets));
+                .WhereAsync<Account, AccountDto>(predicate);
 
             return accounts;
-
-
         }
     }
 }

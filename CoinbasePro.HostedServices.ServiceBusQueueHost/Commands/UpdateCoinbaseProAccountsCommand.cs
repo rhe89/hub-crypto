@@ -28,6 +28,7 @@ namespace CoinbasePro.HostedServices.ServiceBusQueueHost.Commands
         public async Task NotifyConsumers()
         {
             await _messageSender.AddToQueue(QueueNames.CoinbaseProAccountsUpdated);
+            await _messageSender.AddToQueue(QueueNames.UpdateCoinbaseProAccountBalances);
         }
 
         public override string QueueName => QueueNames.UpdateCoinbaseProAccounts;

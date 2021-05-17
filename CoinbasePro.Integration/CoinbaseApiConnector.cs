@@ -9,7 +9,6 @@ namespace CoinbasePro.Integration
 {
     public class CoinbaseApiConnector : HttpClientService, ICoinbaseApiConnector
     {
-        private const string ExchangeRatePath = "/api/exchangerates/exchangerate";
         private const string ExchangeRatesPath = "/api/exchangerates";
         
         public CoinbaseApiConnector(HttpClient httpClient) : base(httpClient, "CoinbaseApi") {}
@@ -21,7 +20,7 @@ namespace CoinbasePro.Integration
 
         public async Task<Response<ExchangeRateDto>> GetExchangeRate(string currency)
         {
-            return await Get<ExchangeRateDto>(ExchangeRatePath, $"currency={currency}");
+            return await Get<ExchangeRateDto>(ExchangeRatesPath, $"currency={currency}");
         }
     }
 }

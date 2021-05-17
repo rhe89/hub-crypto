@@ -1,9 +1,8 @@
 using AutoMapper;
-using Coinbase.Core.Providers;
+using CoinbasePro.Core.Providers;
 using CoinbasePro.Data;
 using CoinbasePro.Data.AutoMapper;
 using CoinbasePro.Providers;
-using CoinbasePro.Web.Api.Services;
 using Hub.Web.Api;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,9 +19,7 @@ namespace CoinbasePro.Web.Api
         protected override void AddDomainDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.TryAddTransient<IAccountProvider, AccountProvider>();
-            serviceCollection.TryAddTransient<IAssetsProvider, AssetsProvider>();
-            serviceCollection.TryAddTransient<IAssetsService, AssetsService>();
-            serviceCollection.TryAddTransient<IAccountService, AccountService>();
+            serviceCollection.TryAddTransient<IAccountBalanceProvider, AccountBalanceProvider>();
             serviceCollection.AddAutoMapper(c =>
             {
                 c.AddCoinbaseProProfiles();

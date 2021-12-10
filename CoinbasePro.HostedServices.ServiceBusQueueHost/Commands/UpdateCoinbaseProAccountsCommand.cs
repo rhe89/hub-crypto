@@ -1,10 +1,10 @@
 using System.Threading;
 using System.Threading.Tasks;
-using CoinbasePro.Core.Constants;
+using CoinbasePro.Shared.Constants;
 using CoinbasePro.HostedServices.ServiceBusQueueHost.CommandHandlers;
-using Hub.HostedServices.Commands.Core;
-using Hub.HostedServices.ServiceBusQueue.Commands;
-using Hub.ServiceBus.Core;
+using Hub.Shared.HostedServices.Commands;
+using Hub.Shared.HostedServices.ServiceBusQueue;
+using Hub.Shared.Storage.ServiceBus;
 
 namespace CoinbasePro.HostedServices.ServiceBusQueueHost.Commands
 {
@@ -31,6 +31,6 @@ namespace CoinbasePro.HostedServices.ServiceBusQueueHost.Commands
             await _messageSender.AddToQueue(QueueNames.UpdateCoinbaseProAccountBalances);
         }
 
-        public override string QueueName => QueueNames.UpdateCoinbaseProAccounts;
+        public override string Trigger => QueueNames.UpdateCoinbaseProAccounts;
     }
 }

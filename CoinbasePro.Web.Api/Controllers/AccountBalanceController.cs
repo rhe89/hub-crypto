@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CoinbasePro.Core.Providers;
+using CoinbasePro.Providers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoinbasePro.Web.Api.Controllers

@@ -1,5 +1,5 @@
 ﻿using CoinbasePro.Data;
-using Hub.HostedServices.ServiceBusQueue;
+using Hub.Shared.HostedServices.ServiceBusQueue;
 using Microsoft.Extensions.Hosting;
 
 namespace CoinbasePro.HostedServices.ServiceBusQueueHost

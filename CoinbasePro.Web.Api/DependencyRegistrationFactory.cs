@@ -1,9 +1,8 @@
 using AutoMapper;
-using CoinbasePro.Core.Providers;
 using CoinbasePro.Data;
 using CoinbasePro.Data.AutoMapper;
 using CoinbasePro.Providers;
-using Hub.Web.Api;
+using Hub.Shared.Web.Api;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

@@ -1,15 +1,13 @@
 using System;
 using AutoMapper;
-using CoinbasePro.Core.Integration;
 using CoinbasePro.Data;
 using CoinbasePro.Data.AutoMapper;
 using CoinbasePro.HostedServices.ServiceBusQueueHost.CommandHandlers;
 using CoinbasePro.HostedServices.ServiceBusQueueHost.Commands;
 using CoinbasePro.HostedServices.ServiceBusQueueHost.QueueListenerServices;
 using CoinbasePro.Integration;
-using Hub.HostedServices.ServiceBusQueue;
-using Hub.ServiceBus;
-using Hub.ServiceBus.Core;
+using Hub.Shared.HostedServices.ServiceBusQueue;
+using Hub.Shared.Storage.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

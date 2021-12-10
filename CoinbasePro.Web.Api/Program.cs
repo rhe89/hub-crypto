@@ -1,6 +1,6 @@
 using CoinbasePro.Data;
+using Hub.Shared.Web.Api;
 using Microsoft.Extensions.Hosting;
-using Hub.Web.Api;
 
 namespace CoinbasePro.Web.Api
 {

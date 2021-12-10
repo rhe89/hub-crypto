@@ -1,4 +1,4 @@
-﻿namespace CoinbasePro.Core.Constants
+﻿namespace CoinbasePro.Shared.Constants
 {
     public static class SettingKeys
     {

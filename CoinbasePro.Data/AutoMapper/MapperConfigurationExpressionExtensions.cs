@@ -4,12 +4,10 @@ namespace CoinbasePro.Data.AutoMapper
 {
     public static class MapperConfigurationExpressionExtensions
     {
-        public static IMapperConfigurationExpression AddCoinbaseProProfiles(this IMapperConfigurationExpression mapperConfigurationExpression)
+        public static void AddCoinbaseProProfiles(this IMapperConfigurationExpression mapperConfigurationExpression)
         {
             mapperConfigurationExpression.AddProfile<AccountMapperProfile>();
             mapperConfigurationExpression.AddProfile<AccountBalanceMapperProfile>();
-
-            return mapperConfigurationExpression;
         }
     }
 }

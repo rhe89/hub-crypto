@@ -1,6 +1,6 @@
 using AutoMapper;
-using CoinbasePro.Core.Dto.Data;
-using CoinbasePro.Core.Entities;
+using CoinbasePro.Data.Entities;
+using Hub.Shared.DataContracts.Banking;
 
 namespace CoinbasePro.Data.AutoMapper
 {

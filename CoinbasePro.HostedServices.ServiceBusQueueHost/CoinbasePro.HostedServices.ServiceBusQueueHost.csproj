@@ -4,7 +4,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Hub.HostedServices.ServiceBusQueue" Version="3.1.1" />
+		<PackageReference Include="Hub.Shared.DataContracts.Banking" Version="3.2" />
+		<PackageReference Include="Hub.Shared.DataContracts.CoinbasePro" Version="3.2" />
+		<PackageReference Include="Hub.Shared.DataContracts.Coinbase" Version="3.2" />
+		<PackageReference Include="Hub.Shared.HostedServices.ServiceBusQueue" Version="3.2" />
+		<PackageReference Include="Hub.Shared.Storage.ServiceBus" Version="3.2" />
 	</ItemGroup>
 
 	<ItemGroup>

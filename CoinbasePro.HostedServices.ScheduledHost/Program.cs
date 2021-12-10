@@ -1,5 +1,5 @@
 using CoinbasePro.Data;
-using Hub.HostedServices.Schedule;
+using Hub.Shared.HostedServices.Schedule;
 using Microsoft.Extensions.Hosting;
 
 namespace CoinbasePro.HostedServices.ScheduledHost

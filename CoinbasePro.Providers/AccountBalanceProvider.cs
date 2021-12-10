@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using CoinbasePro.Core.Dto.Data;
-using CoinbasePro.Core.Entities;
-using CoinbasePro.Core.Providers;
-using Hub.Storage.Repository.Core;
+using CoinbasePro.Data.Entities;
+using Hub.Shared.DataContracts.Banking;
+using Hub.Shared.Storage.Repository.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoinbasePro.Providers
 {
+    public interface IAccountBalanceProvider
+    {
+        Task<IList<AccountBalanceDto>> GetAssets(string accountName,
+            DateTime? fromDate,
+            DateTime? toDate);
+    }
+    
     public class AccountBalanceProvider : IAccountBalanceProvider
     {
         private readonly IHubDbRepository _dbRepository;

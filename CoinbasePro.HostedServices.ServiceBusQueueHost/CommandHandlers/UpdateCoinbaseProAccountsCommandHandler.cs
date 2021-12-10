@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using CoinbasePro.Core.Dto.Data;
-using CoinbasePro.Core.Dto.Integration;
-using CoinbasePro.Core.Entities;
-using CoinbasePro.Core.Exceptions;
-using CoinbasePro.Core.Integration;
-using Hub.Storage.Repository.Core;
-using Hub.Web.Http;
+using CoinbasePro.Data.Entities;
+using CoinbasePro.Integration;
+using Hub.Shared.DataContracts.Banking;
+using Hub.Shared.DataContracts.Coinbase;
+using Hub.Shared.Storage.Repository.Core;
 using Microsoft.Extensions.Logging;
 
 namespace CoinbasePro.HostedServices.ServiceBusQueueHost.CommandHandlers
 {
+    public interface IUpdateCoinbaseProAccountsCommandHandler
+    {
+        Task UpdateAccountAssets();
+    }
+    
     public class UpdateCoinbaseProAccountsCommandHandler : IUpdateCoinbaseProAccountsCommandHandler
     {
         private readonly ILogger<UpdateCoinbaseProAccountsCommandHandler> _logger;
@@ -46,7 +48,7 @@ namespace CoinbasePro.HostedServices.ServiceBusQueueHost.CommandHandlers
 
             foreach (var dbAccount in accountsInDb)
             {
-                _logger.LogInformation($"Updating account {counter++} of {accountsCount}: {dbAccount.Name}.");
+                _logger.LogInformation("Updating account {Number} of {AccountsCount}: {AccountName}", counter++, accountsCount,dbAccount.Name);
 
                 try
                 {
@@ -54,7 +56,7 @@ namespace CoinbasePro.HostedServices.ServiceBusQueueHost.CommandHandlers
                 }
                 catch (Exception e)
                 {
-                    _logger.LogWarning($"Failed updating account {dbAccount.Name}. Continuing", e.Message);
+                    _logger.LogError(e, "Failed updating account {AccountName}", dbAccount.Name);
                 }
             }
 
@@ -63,24 +65,19 @@ namespace CoinbasePro.HostedServices.ServiceBusQueueHost.CommandHandlers
             _logger.LogInformation("Done updating cryptocurrencies");
         }
 
-        private async Task UpdateAccount(AccountDto dbAccount, IList<Services.Accounts.Models.Account> coinbaseProAccounts, IList<ExchangeRateDto> exchangeRates)
+        private async Task UpdateAccount(AccountDto dbAccount, IEnumerable<Services.Accounts.Models.Account> coinbaseProAccounts, IEnumerable<ExchangeRateDto> exchangeRates)
         {
-
             var correspondingCoinbaseProAccount =
                 coinbaseProAccounts.FirstOrDefault(x => x.Currency.ToString() == dbAccount.Name);
 
             if (correspondingCoinbaseProAccount == null)
             {
-                _logger.LogInformation($"Couldn't get account {dbAccount.Name} from Coinbase Pro API. Skipping.");
+                _logger.LogWarning("Couldn't get account {Account} from Coinbase Pro API", dbAccount.Name);
                 return;
             }
 
-            var exchangeRateInNok = exchangeRates.FirstOrDefault(x => x.Currency == dbAccount.Name)?.NOKRate;
-
-            if (exchangeRateInNok == null)
-            {
-                exchangeRateInNok = await GetExchangeRateInNok(dbAccount.Name);
-            }
+            var exchangeRateInNok = exchangeRates.FirstOrDefault(x => x.Currency == dbAccount.Name)?.NOKRate ?? 
+                                    await GetExchangeRateInNok(dbAccount.Name);
 
             var valueInNok = (int) (correspondingCoinbaseProAccount.Balance * exchangeRateInNok);
 
@@ -91,70 +88,16 @@ namespace CoinbasePro.HostedServices.ServiceBusQueueHost.CommandHandlers
 
         private async Task<IList<ExchangeRateDto>> GetExchangeRates()
         {
-            Response<IList<ExchangeRateDto>> exchangeRates;
-            try
-            {
-                exchangeRates = await _coinbaseApiConnector.GetExchangeRates();
-            }
-            catch (Exception e)
-            {
-                throw new CoinbaseApiConnectorException(
-                    "Error occured when getting exchange rates from Coinbase API", e);
-            }
-            
-            if (exchangeRates.StatusCode != HttpStatusCode.OK)
-            {
-                throw new CoinbaseApiConnectorException(
-                    $"Error occured when getting exchange rates from Coinbase API. Status code: {exchangeRates.StatusCode}");
-            }
+            var exchangeRates = await _coinbaseApiConnector.GetExchangeRates();
 
-            if (!exchangeRates.Success)
-            {
-                throw new CoinbaseApiConnectorException(
-                    $"Error occured when getting exchange rates from Coinbase API. Error message: {exchangeRates.ErrorMessage}");
-            }
-            
-            if (exchangeRates.Data == null)
-            {
-                throw new CoinbaseApiConnectorException(
-                    "Error occured when getting exchange rates from Coinbase API. exchangeRates?.Data?.Rates was null");
-            }
-            
-            return exchangeRates.Data;
+            return exchangeRates;
         }
         
         private async Task<decimal> GetExchangeRateInNok(string currency)
         {
-            Response<ExchangeRateDto> exchangeRates;
-            try
-            {
-                exchangeRates = await _coinbaseApiConnector.GetExchangeRate(currency);
-            }
-            catch (Exception e)
-            {
-                throw new CoinbaseApiConnectorException(
-                    $"Error occured when getting exchange rates for {currency} from Coinbase API", e);
-            }
-            
-            if (!exchangeRates.Success)
-            {
-                throw new CoinbaseApiConnectorException(
-                    $"Error occured when getting exchange rates for {currency} from Coinbase API. Error message: {exchangeRates.ErrorMessage}");
-            }
-            
-            if (exchangeRates.StatusCode != HttpStatusCode.OK)
-            {
-                throw new CoinbaseApiConnectorException(
-                    $"Error occured when getting exchange rates for {currency} from Coinbase API. Status code: {exchangeRates.StatusCode}");
-            }
-            
-            if (exchangeRates.Data?.NOKRate == null)
-            {
-                throw new CoinbaseApiConnectorException(
-                    $"Error occured when getting exchange rates for {currency} from Coinbase API. exchangeRates?.Data?.Rates was null");
-            }
-
-            return exchangeRates.Data.NOKRate;
+            var exchangeRates = await _coinbaseApiConnector.GetExchangeRate(currency);
+           
+            return exchangeRates.NOKRate;
         }
     }
 }

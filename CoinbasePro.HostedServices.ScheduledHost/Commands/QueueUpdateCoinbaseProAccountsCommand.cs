@@ -1,9 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
-using CoinbasePro.Core.Constants;
-using Hub.HostedServices.Commands.Configuration.Core;
-using Hub.HostedServices.Schedule.Commands;
-using Hub.ServiceBus.Core;
+using CoinbasePro.Shared.Constants;
+using Hub.Shared.HostedServices.Commands;
+using Hub.Shared.HostedServices.Schedule;
+using Hub.Shared.Storage.ServiceBus;
 
 namespace CoinbasePro.HostedServices.ScheduledHost.Commands
 {

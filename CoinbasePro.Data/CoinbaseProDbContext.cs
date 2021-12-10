@@ -1,5 +1,5 @@
-using CoinbasePro.Core.Entities;
-using Hub.Storage.Repository;
+using CoinbasePro.Data.Entities;
+using Hub.Shared.Storage.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoinbasePro.Data

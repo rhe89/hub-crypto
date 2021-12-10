@@ -1,13 +1,18 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using CoinbasePro.Core.Dto.Data;
-using CoinbasePro.Core.Entities;
-using Hub.Storage.Repository.Core;
+using CoinbasePro.Data.Entities;
+using Hub.Shared.DataContracts.Banking;
+using Hub.Shared.Storage.Repository.Core;
 using Microsoft.Extensions.Logging;
 
 namespace CoinbasePro.HostedServices.ServiceBusQueueHost.CommandHandlers
 {
+    public interface IUpdateCoinbaseProAccountBalanceHistoryCommandHandler
+    {
+        Task UpdateAccountBalance();
+    }
+    
     public class UpdateCoinbaseProAccountBalanceHistoryCommandHandler : IUpdateCoinbaseProAccountBalanceHistoryCommandHandler
     {
         private readonly IHubDbRepository _dbRepository;
@@ -28,7 +33,7 @@ namespace CoinbasePro.HostedServices.ServiceBusQueueHost.CommandHandlers
             {
                 var now = DateTime.Now;
 
-                _logger.LogInformation($"Updating account balance history for account {account.Name}");
+                _logger.LogInformation("Updating account balance history for account {AccountName}", account.Name);
                 
                 var accountBalanceForCurrentDay = GetAccountBalanceForCurrentDay(account, now);
             

@@ -2,16 +2,15 @@ using CoinbasePro.Data;
 using Hub.Shared.HostedServices.Schedule;
 using Microsoft.Extensions.Hosting;
 
-namespace CoinbasePro.HostedServices.ScheduledHost
+namespace CoinbasePro.HostedServices.ScheduledHost;
+
+public static class Program
 {
-    public static class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            new Bootstrapper<DependencyRegistrationFactory, CoinbaseProDbContext>(args,"SQL_DB_COINBASE_PRO")
-                .CreateHostBuilder()
-                .Build()
-                .Run();
-        }
+        new Bootstrapper<DependencyRegistrationFactory, CoinbaseProDbContext>(args,"SQL_DB_COINBASE_PRO")
+            .CreateHostBuilder()
+            .Build()
+            .Run();
     }
 }

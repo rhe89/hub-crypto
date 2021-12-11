@@ -2,25 +2,24 @@
 using CoinbasePro.Providers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CoinbasePro.Web.Api.Controllers
+namespace CoinbasePro.Web.Api.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class AccountsController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class AccountsController : ControllerBase
+    private readonly IAccountProvider _accountProvider;
+
+    public AccountsController(IAccountProvider accountProvider)
     {
-        private readonly IAccountProvider _accountProvider;
+        _accountProvider = accountProvider;
+    }
 
-        public AccountsController(IAccountProvider accountProvider)
-        {
-            _accountProvider = accountProvider;
-        }
+    [HttpGet]
+    public async Task<IActionResult> Accounts([FromQuery]string accountName)
+    {
+        var accounts = await _accountProvider.GetAccounts(accountName);
 
-        [HttpGet]
-        public async Task<IActionResult> Accounts([FromQuery]string accountName)
-        {
-            var accounts = await _accountProvider.GetAccounts(accountName);
-
-            return Ok(accounts);
-        }
+        return Ok(accounts);
     }
 }

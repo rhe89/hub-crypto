@@ -5,20 +5,19 @@ using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace CoinbasePro.HostedServices.ServiceBusQueueHost.QueueListenerServices
+namespace CoinbasePro.HostedServices.ServiceBusQueueHost.QueueListenerServices;
+
+public class UpdateCoinbaseProAccountsQueueListener : ServiceBusHostedService
 {
-    public class UpdateCoinbaseProAccountsQueueListener : ServiceBusHostedService
+    public UpdateCoinbaseProAccountsQueueListener(ILogger<UpdateCoinbaseProAccountsQueueListener> logger, 
+        IConfiguration configuration,
+        UpdateCoinbaseProAccountsCommand command, 
+        IQueueProcessor queueProcessor,
+        TelemetryClient telemetryClient) : base(logger, 
+        configuration,
+        command, 
+        queueProcessor,
+        telemetryClient)
     {
-        public UpdateCoinbaseProAccountsQueueListener(ILogger<UpdateCoinbaseProAccountsQueueListener> logger, 
-            IConfiguration configuration,
-            UpdateCoinbaseProAccountsCommand command, 
-            IQueueProcessor queueProcessor,
-            TelemetryClient telemetryClient) : base(logger, 
-                                                 configuration,
-                                                 command, 
-                                                 queueProcessor,
-                                                 telemetryClient)
-        {
-        }
     }
 }

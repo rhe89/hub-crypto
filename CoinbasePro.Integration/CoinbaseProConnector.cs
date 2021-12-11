@@ -7,51 +7,32 @@ using CoinbasePro.Network.Authentication;
 using CoinbasePro.Services.Accounts.Models;
 using Microsoft.Extensions.Configuration;
 
-namespace CoinbasePro.Integration
+namespace CoinbasePro.Integration;
+
+public interface ICoinbaseProConnector
 {
-    public interface ICoinbaseProConnector
+    Task<IList<Account>> GetAccounts();
+}
+    
+public class CoinbaseProConnector : ICoinbaseProConnector
+{
+    private readonly Authenticator _authenticator;
+
+    public CoinbaseProConnector(IConfiguration settingProvider)
     {
-        Task<IList<Account>> GetAccounts();
+        var apiKey = settingProvider.GetValue<string>(SettingKeys.CoinbaseProApiKey);
+        var apiSecret = settingProvider.GetValue<string>(SettingKeys.CoinbaseProApiSecret);
+        var passPhrase = settingProvider.GetValue<string>(SettingKeys.CoinbaseProPassphrase);
+            
+        _authenticator = new Authenticator(apiKey, apiSecret, passPhrase);
     }
-    
-    public class CoinbaseProConnector : ICoinbaseProConnector
+
+    public async Task<IList<Account>> GetAccounts()
     {
-        private readonly Authenticator _authenticator;
+        var coinbaseProClient = new CoinbaseProClient(_authenticator);
 
-        public CoinbaseProConnector(IConfiguration settingProvider)
-        {
-            var apiKey = settingProvider.GetValue<string>(SettingKeys.CoinbaseProApiKey);
-            var apiSecret = settingProvider.GetValue<string>(SettingKeys.CoinbaseProApiSecret);
-            var passPhrase = settingProvider.GetValue<string>(SettingKeys.CoinbaseProPassphrase);
+        var accounts = await coinbaseProClient.AccountsService.GetAllAccountsAsync();
             
-            _authenticator = new Authenticator(apiKey, apiSecret, passPhrase);
-        }
-
-        public async Task<IList<Account>> GetAccounts()
-        {
-            var coinbaseProClient = new CoinbaseProClient(_authenticator);
-
-            try
-            {
-                var accounts = await coinbaseProClient.AccountsService.GetAllAccountsAsync();
-                
-                return accounts
-                    .ToList();
-            }
-            catch (Exception e)
-            {
-                throw new CoinbaseProConnectorException("CoinbaseProConnector: Error sending request to Coinbase Pro API", e);
-            }
-        }
-        
-        private class CoinbaseProConnectorException : Exception
-        {
-            public CoinbaseProConnectorException(string message, Exception innerException) : base(message, innerException)
-            {
-            
-            }
-        }
+        return accounts.ToList();
     }
-    
-    
 }

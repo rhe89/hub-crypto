@@ -9,95 +9,94 @@ using Hub.Shared.DataContracts.Coinbase;
 using Hub.Shared.Storage.Repository.Core;
 using Microsoft.Extensions.Logging;
 
-namespace CoinbasePro.HostedServices.ServiceBusQueueHost.CommandHandlers
+namespace CoinbasePro.HostedServices.ServiceBusQueueHost.CommandHandlers;
+
+public interface IUpdateCoinbaseProAccountsCommandHandler
 {
-    public interface IUpdateCoinbaseProAccountsCommandHandler
-    {
-        Task UpdateAccountAssets();
-    }
+    Task UpdateAccountAssets();
+}
     
-    public class UpdateCoinbaseProAccountsCommandHandler : IUpdateCoinbaseProAccountsCommandHandler
+public class UpdateCoinbaseProAccountsCommandHandler : IUpdateCoinbaseProAccountsCommandHandler
+{
+    private readonly ILogger<UpdateCoinbaseProAccountsCommandHandler> _logger;
+    private readonly ICoinbaseProConnector _coinbaseProConnector;
+    private readonly ICoinbaseApiConnector _coinbaseApiConnector;
+    private readonly IHubDbRepository _dbRepository;
+
+    public UpdateCoinbaseProAccountsCommandHandler(ILogger<UpdateCoinbaseProAccountsCommandHandler> logger,
+        ICoinbaseProConnector coinbaseProConnector,
+        ICoinbaseApiConnector coinbaseApiConnector,
+        IHubDbRepository dbRepository)
     {
-        private readonly ILogger<UpdateCoinbaseProAccountsCommandHandler> _logger;
-        private readonly ICoinbaseProConnector _coinbaseProConnector;
-        private readonly ICoinbaseApiConnector _coinbaseApiConnector;
-        private readonly IHubDbRepository _dbRepository;
-
-        public UpdateCoinbaseProAccountsCommandHandler(ILogger<UpdateCoinbaseProAccountsCommandHandler> logger,
-            ICoinbaseProConnector coinbaseProConnector,
-            ICoinbaseApiConnector coinbaseApiConnector,
-            IHubDbRepository dbRepository)
-        {
-            _logger = logger;
-            _coinbaseProConnector = coinbaseProConnector;
-            _coinbaseApiConnector = coinbaseApiConnector;
-            _dbRepository = dbRepository;
-        }
+        _logger = logger;
+        _coinbaseProConnector = coinbaseProConnector;
+        _coinbaseApiConnector = coinbaseApiConnector;
+        _dbRepository = dbRepository;
+    }
         
-        public async Task UpdateAccountAssets()
-        {
-            var accountsInDb = await _dbRepository.AllAsync<Account, AccountDto>();
+    public async Task UpdateAccountAssets()
+    {
+        var accountsInDb = await _dbRepository.AllAsync<Account, AccountDto>();
             
-            var coinbaseProAccounts = await _coinbaseProConnector.GetAccounts();
+        var coinbaseProAccounts = await _coinbaseProConnector.GetAccounts();
 
-            var exchangeRates = await GetExchangeRates();
+        var exchangeRates = await GetExchangeRates();
 
-            var accountsCount = accountsInDb.Count;
+        var accountsCount = accountsInDb.Count;
 
-            var counter = 1;
+        var counter = 1;
 
-            foreach (var dbAccount in accountsInDb)
-            {
-                _logger.LogInformation("Updating account {Number} of {AccountsCount}: {AccountName}", counter++, accountsCount,dbAccount.Name);
-
-                try
-                {
-                    await UpdateAccount(dbAccount, coinbaseProAccounts, exchangeRates);
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e, "Failed updating account {AccountName}", dbAccount.Name);
-                }
-            }
-
-            await _dbRepository.ExecuteQueueAsync();
-
-            _logger.LogInformation("Done updating cryptocurrencies");
-        }
-
-        private async Task UpdateAccount(AccountDto dbAccount, IEnumerable<Services.Accounts.Models.Account> coinbaseProAccounts, IEnumerable<ExchangeRateDto> exchangeRates)
+        foreach (var dbAccount in accountsInDb)
         {
-            var correspondingCoinbaseProAccount =
-                coinbaseProAccounts.FirstOrDefault(x => x.Currency.ToString() == dbAccount.Name);
+            _logger.LogInformation("Updating account {Number} of {AccountsCount}: {AccountName}", counter++, accountsCount,dbAccount.Name);
 
-            if (correspondingCoinbaseProAccount == null)
+            try
             {
-                _logger.LogWarning("Couldn't get account {Account} from Coinbase Pro API", dbAccount.Name);
-                return;
+                await UpdateAccount(dbAccount, coinbaseProAccounts, exchangeRates);
             }
-
-            var exchangeRateInNok = exchangeRates.FirstOrDefault(x => x.Currency == dbAccount.Name)?.NOKRate ?? 
-                                    await GetExchangeRateInNok(dbAccount.Name);
-
-            var valueInNok = (int) (correspondingCoinbaseProAccount.Balance * exchangeRateInNok);
-
-            dbAccount.Balance = valueInNok;
-
-            _dbRepository.QueueUpdate<Account, AccountDto>(dbAccount);
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed updating account {AccountName}", dbAccount.Name);
+            }
         }
 
-        private async Task<IList<ExchangeRateDto>> GetExchangeRates()
+        await _dbRepository.ExecuteQueueAsync();
+
+        _logger.LogInformation("Done updating cryptocurrencies");
+    }
+
+    private async Task UpdateAccount(AccountDto dbAccount, IEnumerable<Services.Accounts.Models.Account> coinbaseProAccounts, IEnumerable<ExchangeRateDto> exchangeRates)
+    {
+        var correspondingCoinbaseProAccount =
+            coinbaseProAccounts.FirstOrDefault(x => x.Currency.ToString() == dbAccount.Name);
+
+        if (correspondingCoinbaseProAccount == null)
         {
-            var exchangeRates = await _coinbaseApiConnector.GetExchangeRates();
-
-            return exchangeRates;
+            _logger.LogWarning("Couldn't get account {Account} from Coinbase Pro API", dbAccount.Name);
+            return;
         }
+
+        var exchangeRateInNok = exchangeRates.FirstOrDefault(x => x.Currency == dbAccount.Name)?.NOKRate ?? 
+                                await GetExchangeRateInNok(dbAccount.Name);
+
+        var valueInNok = (int) (correspondingCoinbaseProAccount.Balance * exchangeRateInNok);
+
+        dbAccount.Balance = valueInNok;
+
+        _dbRepository.QueueUpdate<Account, AccountDto>(dbAccount);
+    }
+
+    private async Task<IList<ExchangeRateDto>> GetExchangeRates()
+    {
+        var exchangeRates = await _coinbaseApiConnector.GetExchangeRates();
+
+        return exchangeRates;
+    }
         
-        private async Task<decimal> GetExchangeRateInNok(string currency)
-        {
-            var exchangeRates = await _coinbaseApiConnector.GetExchangeRate(currency);
+    private async Task<decimal> GetExchangeRateInNok(string currency)
+    {
+        var exchangeRates = await _coinbaseApiConnector.GetExchangeRate(currency);
            
-            return exchangeRates.NOKRate;
-        }
+        return exchangeRates.NOKRate;
     }
 }

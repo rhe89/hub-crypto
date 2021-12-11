@@ -5,8 +5,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="GDAX.Api.ClientLibrary" Version="1.0.43" />
-		<PackageReference Include="Hub.Shared.DataContracts.Coinbase" Version="3.2" />
-		<PackageReference Include="Hub.Shared.Web.Http" Version="3.2" />
+		<PackageReference Include="Hub.Shared.DataContracts.Coinbase" Version="3.3" />
+		<PackageReference Include="Hub.Shared.Web.Http" Version="3.3" />
 	</ItemGroup>
 
 	<ItemGroup>

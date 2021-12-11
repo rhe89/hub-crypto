@@ -4,11 +4,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Hub.Shared.DataContracts.Banking" Version="3.2" />
-		<PackageReference Include="Hub.Shared.DataContracts.CoinbasePro" Version="3.2" />
-		<PackageReference Include="Hub.Shared.DataContracts.Coinbase" Version="3.2" />
-		<PackageReference Include="Hub.Shared.HostedServices.ServiceBusQueue" Version="3.2" />
-		<PackageReference Include="Hub.Shared.Storage.ServiceBus" Version="3.2" />
+		<PackageReference Include="Hub.Shared.DataContracts.Banking" Version="3.3" />
+		<PackageReference Include="Hub.Shared.DataContracts.CoinbasePro" Version="3.3" />
+		<PackageReference Include="Hub.Shared.DataContracts.Coinbase" Version="3.3" />
+		<PackageReference Include="Hub.Shared.HostedServices.ServiceBusQueue" Version="3.3" />
+		<PackageReference Include="Hub.Shared.Storage.ServiceBus" Version="3.3" />
 	</ItemGroup>
 
 	<ItemGroup>

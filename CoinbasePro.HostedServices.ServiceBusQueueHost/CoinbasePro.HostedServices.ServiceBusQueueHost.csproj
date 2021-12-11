@@ -4,11 +4,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\hub-shared\Hub.Shared.DataContracts\Hub.Shared.DataContracts.Banking\Hub.Shared.DataContracts.Banking.csproj" />
-		<ProjectReference Include="..\..\hub-shared\Hub.Shared.DataContracts\Hub.Shared.DataContracts.CoinbasePro\Hub.Shared.DataContracts.CoinbasePro.csproj" />
-		<ProjectReference Include="..\..\hub-shared\Hub.Shared.DataContracts\Hub.Shared.DataContracts.Coinbase\Hub.Shared.DataContracts.Coinbase.csproj" />
-		<ProjectReference Include="..\..\hub-shared\Hub.Shared.HostedServices\Hub.Shared.HostedServices.ServiceBusQueue\Hub.Shared.HostedServices.ServiceBusQueue.csproj" />
-		<ProjectReference Include="..\..\hub-shared\Hub.Shared.Storage\Hub.Shared.Storage.ServiceBus\Hub.Shared.Storage.ServiceBus.csproj" />
+		<PackageReference Include="Hub.Shared.DataContracts.Banking" Version="6.0.0" />
+		<PackageReference Include="Hub.Shared.DataContracts.CoinbasePro" Version="6.0.0" />
+		<PackageReference Include="Hub.Shared.DataContracts.Coinbase" Version="6.0.0" />
+		<PackageReference Include="Hub.Shared.HostedServices.ServiceBusQueue" Version="6.0.0" />
+		<PackageReference Include="Hub.Shared.Storage.ServiceBus" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\CoinbasePro.Data\CoinbasePro.Data.csproj" />
 		<ProjectReference Include="..\CoinbasePro.Integration\CoinbasePro.Integration.csproj" />
 	</ItemGroup>

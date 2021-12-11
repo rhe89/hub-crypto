@@ -4,7 +4,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\hub-shared\Hub.Shared.Web\Hub.Shared.Web.Api\Hub.Shared.Web.Api.csproj" />
+		<PackageReference Include="Hub.Shared.Web.Api" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\CoinbasePro.Data\CoinbasePro.Data.csproj" />
 		<ProjectReference Include="..\CoinbasePro.Providers\CoinbasePro.Providers.csproj" />
 	</ItemGroup>

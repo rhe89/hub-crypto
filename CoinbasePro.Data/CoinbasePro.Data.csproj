@@ -4,10 +4,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\hub-shared\Hub.Shared.DataContracts\Hub.Shared.DataContracts.Banking\Hub.Shared.DataContracts.Banking.csproj" />
-		<ProjectReference Include="..\..\hub-shared\Hub.Shared.DataContracts\Hub.Shared.DataContracts.CoinbasePro\Hub.Shared.DataContracts.CoinbasePro.csproj" />
-		<ProjectReference Include="..\..\hub-shared\Hub.Shared.Storage\Hub.Shared.Storage.Repository.Core\Hub.Shared.Storage.Repository.Core.csproj" />
-		<ProjectReference Include="..\..\hub-shared\Hub.Shared.Storage\Hub.Shared.Storage.Repository\Hub.Shared.Storage.Repository.csproj" />
+		<PackageReference Include="Hub.Shared.DataContracts.Banking" Version="6.0.0" />
+		<PackageReference Include="Hub.Shared.DataContracts.CoinbasePro" Version="6.0.0" />
+		<PackageReference Include="Hub.Shared.Storage.Repository.Core" Version="6.0.0" />
+		<PackageReference Include="Hub.Shared.Storage.Repository" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\CoinbasePro.Shared\CoinbasePro.Shared.csproj" />
 	</ItemGroup>
 

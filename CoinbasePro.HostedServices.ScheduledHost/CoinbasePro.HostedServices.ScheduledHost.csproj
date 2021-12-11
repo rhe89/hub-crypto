@@ -4,8 +4,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\hub-shared\Hub.Shared.HostedServices\Hub.Shared.HostedServices.Schedule\Hub.Shared.HostedServices.Schedule.csproj" />
-		<ProjectReference Include="..\..\hub-shared\Hub.Shared.Storage\Hub.Shared.Storage.ServiceBus\Hub.Shared.Storage.ServiceBus.csproj" />
+		<PackageReference Include="Hub.Shared.HostedServices.Schedule" Version="6.0.0" />
+		<PackageReference Include="Hub.Shared.Storage.ServiceBus" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\CoinbasePro.Data\CoinbasePro.Data.csproj" />
 	</ItemGroup>
 

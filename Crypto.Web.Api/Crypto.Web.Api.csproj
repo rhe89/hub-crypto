@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Hub.Shared.Web.Api" Version="6.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Crypto.Data\Crypto.Data.csproj" />
+		<ProjectReference Include="..\Crypto.Providers\Crypto.Providers.csproj" />
+	</ItemGroup>
+
+</Project>

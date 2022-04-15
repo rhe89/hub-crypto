@@ -1,23 +1,23 @@
 version: '3.7'
 
 services:
-    coinbase-pro-service-bus-queue-host:
-        container_name: "coinbase_pro_service_bus_queue_host"
+    crypto-service-bus-queue-host:
+        container_name: "crypto_service_bus_queue_host"
         build:
             context: ./
-            dockerfile: CoinbasePro.HostedServices.ServiceBusQueueHost/Dockerfile
-        image: "rhe89/hub-coinbase-pro-service-bus-queue-host"
+            dockerfile: Crypto.HostedServices.ServiceBusQueueHost/Dockerfile
+        image: "rhe89/hub-crypto-service-bus-queue-host"
 
-    coinbase-pro-scheduled-host:
-        container_name: "coinbase_pro_scheduled_host"
+    crypto-scheduled-host:
+        container_name: "crypto_scheduled_host"
         build:
             context: ./
-            dockerfile: CoinbasePro.HostedServices.ScheduledHost/Dockerfile
-        image: "rhe89/hub-coinbase-pro-scheduled-host"
+            dockerfile: Crypto.HostedServices.ScheduledHost/Dockerfile
+        image: "rhe89/hub-crypto-scheduled-host"
 
-    coinbase-pro-api:
-        container_name: "coinbase_pro_api"
+    crypto-api:
+        container_name: "crypto_api"
         build: 
             context: ./
-            dockerfile: CoinbasePro.Web.Api/Dockerfile
-        image: "rhe89/hub-coinbase-pro-api"
+            dockerfile: Crypto.Web.Api/Dockerfile
+        image: "rhe89/hub-crypto-api"

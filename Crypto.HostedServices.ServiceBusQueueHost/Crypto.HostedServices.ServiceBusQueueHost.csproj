@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Hub.Shared.DataContracts.Crypto" Version="6.0.3" />
+		<PackageReference Include="Hub.Shared.HostedServices.ServiceBusQueue" Version="6.0.3" />
+		<PackageReference Include="Hub.Shared.Storage.ServiceBus" Version="6.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Crypto.Providers\Crypto.Providers.csproj" />
+		<ProjectReference Include="..\Crypto.Services\Crypto.Services.csproj" />
+		<ProjectReference Include="..\Crypto.Data\Crypto.Data.csproj" />
+		<ProjectReference Include="..\Crypto.Integration\Crypto.Integration.csproj" />
+	</ItemGroup>
+
+</Project>

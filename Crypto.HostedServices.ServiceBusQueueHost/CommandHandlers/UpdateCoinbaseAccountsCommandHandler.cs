@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Crypto.Data.Entities;
 using Crypto.Integration;
 using Crypto.Services;
-using Hub.Shared.DataContracts.Crypto;
 using Hub.Shared.DataContracts.Crypto.Dto;
 using Hub.Shared.Storage.Repository.Core;
 using Microsoft.Extensions.Logging;
@@ -47,7 +46,7 @@ public class UpdateCoinbaseAccountsCommandHandler : IUpdateCoinbaseAccountsComma
 
         foreach (var coinbaseAccount in coinbaseAccounts)
         {
-            _logger.LogInformation("Updating Coinbase-account {AccountName} ({Counter} of {Total})", coinbaseAccount.Currency, counter++, coinbaseAccountsCount);
+            _logger.LogInformation("Updating Coinbase-account {AccountName} ({Counter} of {Total})", coinbaseAccount.Currency.Name, counter++, coinbaseAccountsCount);
 
             try
             {
@@ -55,7 +54,7 @@ public class UpdateCoinbaseAccountsCommandHandler : IUpdateCoinbaseAccountsComma
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed updating Coinbase-account {Account}", coinbaseAccount.Currency);
+                _logger.LogError(e, "Failed updating Coinbase-account {Account}", coinbaseAccount.Currency.Name);
             }
         }
 
@@ -70,7 +69,7 @@ public class UpdateCoinbaseAccountsCommandHandler : IUpdateCoinbaseAccountsComma
         
         if (exchangeRate == null)
         {
-            _logger.LogWarning("Could not get exchange rate for currency {Currency}", coinbaseAccount.Currency);
+            _logger.LogWarning("Could not get exchange rate for currency {Currency}", coinbaseAccount.Currency.Name);
             return;
         }
         

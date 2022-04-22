@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Crypto.Data.Entities;
-using Hub.Shared.DataContracts.Crypto;
 using Hub.Shared.DataContracts.Crypto.Dto;
 using Hub.Shared.DataContracts.Crypto.SearchParameters;
 using Hub.Shared.Storage.Repository.Core;

@@ -4,7 +4,6 @@ using Crypto.Data.Entities;
 using Crypto.Integration;
 using Crypto.Providers;
 using Crypto.Shared.Constants;
-using Hub.Shared.DataContracts.Crypto;
 using Hub.Shared.DataContracts.Crypto.Dto;
 using Hub.Shared.DataContracts.Crypto.SearchParameters;
 using Hub.Shared.Storage.Repository.Core;

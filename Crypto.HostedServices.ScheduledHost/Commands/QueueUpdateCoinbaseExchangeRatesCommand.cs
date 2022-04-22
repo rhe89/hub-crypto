@@ -1,6 +1,5 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Crypto.Shared.Constants;
 using Hub.Shared.HostedServices.Commands;
 using Hub.Shared.HostedServices.Schedule;
 using Hub.Shared.Storage.ServiceBus;

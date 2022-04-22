@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Crypto.HostedServices.ServiceBusQueueHost.CommandHandlers;
-using Crypto.Shared.Constants;
 using Hub.Shared.HostedServices.Commands;
 using Hub.Shared.HostedServices.ServiceBusQueue;
 using Hub.Shared.Storage.ServiceBus;

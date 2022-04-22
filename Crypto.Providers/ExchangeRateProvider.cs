@@ -1,15 +1,19 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Crypto.Data.Entities;
 using Hub.Shared.DataContracts.Crypto;
+using Hub.Shared.DataContracts.Crypto.Dto;
+using Hub.Shared.DataContracts.Crypto.SearchParameters;
 using Hub.Shared.Storage.Repository.Core;
 
 namespace Crypto.Providers;
 
 public interface IExchangeRateProvider
 {
-    Task<ExchangeRateDto> GetExchangeRate(string currency);
+    Task<IList<ExchangeRateDto>> GetExchangeRates(ExchangeRateSearchParameters exchangeRateSearchParameters);
 }
     
 public class ExchangeRateProvider : IExchangeRateProvider
@@ -21,11 +25,11 @@ public class ExchangeRateProvider : IExchangeRateProvider
         _dbRepository = dbRepository;
     }
         
-    public async Task<ExchangeRateDto> GetExchangeRate(string currency)
+    public async Task<IList<ExchangeRateDto>> GetExchangeRates(ExchangeRateSearchParameters exchangeRateSearchParameters)
     {
         Expression<Func<ExchangeRate, bool>> predicate = exchangeRate =>
-            string.IsNullOrEmpty(currency) || exchangeRate.Currency.ToLower().Contains(currency.ToLower());
+            exchangeRateSearchParameters.Currencies == null || exchangeRateSearchParameters.Currencies.Any(currency => exchangeRate.Currency == currency);
                 
-        return await _dbRepository.FirstOrDefaultAsync<ExchangeRate, ExchangeRateDto>(predicate);
+        return await _dbRepository.WhereAsync<ExchangeRate, ExchangeRateDto>(predicate);
     }
 }

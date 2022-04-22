@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Crypto.Data.Entities;
 using Crypto.Integration;
 using Crypto.Providers;
 using Crypto.Shared.Constants;
 using Hub.Shared.DataContracts.Crypto;
+using Hub.Shared.DataContracts.Crypto.Dto;
+using Hub.Shared.DataContracts.Crypto.SearchParameters;
 using Hub.Shared.Storage.Repository.Core;
 using Microsoft.Extensions.Logging;
 
@@ -37,9 +40,9 @@ public class ExchangeRateService : IExchangeRateService
 
     public async Task<ExchangeRateDto?> GetExchangeRate(string currency)
     {
-        var exchangeRate = await _exchangeRateProvider.GetExchangeRate(currency);
+        var exchangeRates = await _exchangeRateProvider.GetExchangeRates(new ExchangeRateSearchParameters { Currencies = new [] { currency} } );
 
-        return exchangeRate ?? await CreateOrUpdateExchangeRate(currency);
+        return exchangeRates.FirstOrDefault() ?? await CreateOrUpdateExchangeRate(currency);
     }
     
     public async Task<ExchangeRateDto?> CreateOrUpdateExchangeRate(string currency)
@@ -57,7 +60,9 @@ public class ExchangeRateService : IExchangeRateService
         var usdRate = exchangeRateFromCoinbase.Rates[ExchangeRateConstants.USD];
         var eurRate = exchangeRateFromCoinbase.Rates[ExchangeRateConstants.EUR];
 
-        var exchangeRate = await _exchangeRateProvider.GetExchangeRate(currency);
+        var exchangeRates = await _exchangeRateProvider.GetExchangeRates(new ExchangeRateSearchParameters { Currencies = new [] { currency} } );
+
+        var exchangeRate = exchangeRates.FirstOrDefault();
 
         if (exchangeRate != null)
         {

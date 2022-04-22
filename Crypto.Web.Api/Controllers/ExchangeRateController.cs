@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Crypto.Providers;
+using Hub.Shared.DataContracts.Crypto.SearchParameters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crypto.Web.Api.Controllers;
@@ -15,10 +16,11 @@ public class ExchangeRatesController : ControllerBase
         _exchangeRatesProvider = exchangeRatesProvider;
     }
         
-    public async Task<IActionResult> ExchangeRates([FromQuery]string currency)
+    [HttpPost]
+    public async Task<IActionResult> ExchangeRates(ExchangeRateSearchParameters exchangeRateSearchParameters)
     {
-        var exchangeRate = await _exchangeRatesProvider.GetExchangeRate(currency);
+        var exchangeRates = await _exchangeRatesProvider.GetExchangeRates(exchangeRateSearchParameters);
 
-        return Ok(exchangeRate);
+        return Ok(exchangeRates);
     }
 }

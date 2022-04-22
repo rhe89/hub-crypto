@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Crypto.Providers;
+using Hub.Shared.DataContracts.Crypto.SearchParameters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crypto.Web.Api.Controllers;
@@ -15,10 +16,10 @@ public class AccountsController : ControllerBase
         _accountProvider = accountProvider;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Accounts([FromQuery]string accountName)
+    [HttpPost]
+    public async Task<IActionResult> Accounts(AccountSearchParameters accountSearchParameters)
     {
-        var accounts = await _accountProvider.GetAccounts(accountName);
+        var accounts = await _accountProvider.GetAccounts(accountSearchParameters);
 
         return Ok(accounts);
     }

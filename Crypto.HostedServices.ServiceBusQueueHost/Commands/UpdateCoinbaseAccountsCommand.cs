@@ -27,8 +27,8 @@ public class UpdateCoinbaseAccountsCommand : ServiceBusQueueCommand, ICommandWit
 
     public async Task NotifyConsumers()
     {
-        await _messageSender.AddToQueue(QueueNames.CoinbaseAccountsUpdated);
-        await _messageSender.AddToQueue(QueueNames.UpdateCoinbaseAccountBalances);
+        await _messageSender.AddToQueue(QueueNames.CryptoAccountsUpdated);
+        await _messageSender.AddToQueue(QueueNames.UpdateCoinbaseAssetHistory);
     }
 
     public override string Trigger => QueueNames.UpdateCoinbaseAccounts;

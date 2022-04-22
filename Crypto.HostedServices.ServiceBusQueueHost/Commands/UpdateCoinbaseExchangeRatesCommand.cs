@@ -27,7 +27,7 @@ public class UpdateCoinbaseExchangeRatesCommand : ServiceBusQueueCommand, IComma
 
     public async Task NotifyConsumers()
     {
-        await _messageSender.AddToQueue(QueueNames.CoinbaseExchangeRatesUpdated);
+        await _messageSender.AddToQueue(QueueNames.ExchangeRatesUpdated);
         await _messageSender.AddToQueue(QueueNames.UpdateCoinbaseProAccounts);
         await _messageSender.AddToQueue(QueueNames.UpdateCoinbaseAccounts);
     }

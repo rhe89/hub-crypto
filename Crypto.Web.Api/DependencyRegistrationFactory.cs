@@ -10,7 +10,7 @@ namespace Crypto.Web.Api;
 
 public class DependencyRegistrationFactory : DependencyRegistrationFactory<CryptoDbContext>
 {
-    public DependencyRegistrationFactory() : base("SQL_DB_COINBASE_PRO", "Crypto.Data")
+    public DependencyRegistrationFactory() : base("SQL_DB_CRYPTO", "Crypto.Data")
     {
     }
 

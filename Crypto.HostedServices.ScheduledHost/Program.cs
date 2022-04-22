@@ -8,7 +8,7 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        new Bootstrapper<DependencyRegistrationFactory, CryptoDbContext>(args,"SQL_DB_COINBASE_PRO")
+        new Bootstrapper<DependencyRegistrationFactory, CryptoDbContext>(args, "SQL_DB_CRYPTO")
             .CreateHostBuilder()
             .Build()
             .Run();

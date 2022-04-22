@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Crypto.Data.Entities;
 using Crypto.Services;
 using Hub.Shared.DataContracts.Crypto;
+using Hub.Shared.DataContracts.Crypto.Dto;
 using Hub.Shared.Storage.Repository.Core;
 using Microsoft.Extensions.Logging;
 

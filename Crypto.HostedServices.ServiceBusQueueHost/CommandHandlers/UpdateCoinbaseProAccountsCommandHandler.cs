@@ -6,6 +6,7 @@ using Crypto.Data.Entities;
 using Crypto.Integration;
 using Crypto.Services;
 using Hub.Shared.DataContracts.Crypto;
+using Hub.Shared.DataContracts.Crypto.Dto;
 using Hub.Shared.Storage.Repository.Core;
 using Microsoft.Extensions.Logging;
 
@@ -41,21 +42,21 @@ public class UpdateCoinbaseProAccountsCommandHandler : IUpdateCoinbaseProAccount
             
         var coinbaseProAccounts = await _coinbaseProConnector.GetAccounts();
         
-        var accountsCount = accountsInDb.Count;
+        var coinbaseProAccountsCount = coinbaseProAccounts.Count;
 
         var counter = 1;
 
-        foreach (var dbAccount in accountsInDb)
+        foreach (var coinbaseProAccount in coinbaseProAccounts)
         {
-            _logger.LogInformation("Updating CoinbasePro-account {Number} of {AccountsCount}: {AccountName}", counter++, accountsCount,dbAccount.Name);
+            _logger.LogInformation("Updating CoinbasePro-account {Number} of {AccountsCount}: {AccountName}", counter++, coinbaseProAccountsCount, coinbaseProAccount.Currency);
 
             try
             {
-                await UpdateAccount(dbAccount, coinbaseProAccounts);
+                await UpdateAccount(coinbaseProAccount, accountsInDb);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed updating CoinbasePro-account {AccountName}", dbAccount.Name);
+                _logger.LogError(e, "Failed updating CoinbasePro-account {AccountName}", coinbaseProAccount.Currency);
             }
         }
 
@@ -64,28 +65,34 @@ public class UpdateCoinbaseProAccountsCommandHandler : IUpdateCoinbaseProAccount
         _logger.LogInformation("Done updating CoinbasePro-accounts");
     }
 
-    private async Task UpdateAccount(AccountDto dbAccount, IEnumerable<CoinbasePro.Services.Accounts.Models.Account> coinbaseProAccounts)
+    private async Task UpdateAccount(CoinbasePro.Services.Accounts.Models.Account coinbaseProAccount, IEnumerable<AccountDto> accountsInDb)
     {
-        var correspondingCoinbaseProAccount =
-            coinbaseProAccounts.FirstOrDefault(x => x.Currency.ToString() == dbAccount.Name);
-
-        if (correspondingCoinbaseProAccount == null)
-        {
-            _logger.LogWarning("Couldn't get account {Account} from Coinbase Pro", dbAccount.Name);
-            return;
-        }
-
-        var exchangeRate = await _exchangeRateService.GetExchangeRate(dbAccount.Name);
+        var exchangeRate = await _exchangeRateService.GetExchangeRate(coinbaseProAccount.Currency);
         
         if (exchangeRate == null)
         {
+            _logger.LogWarning("Could not get exchange rate for currency {Currency}", coinbaseProAccount.Currency);
             return;
         }
+        
+        var correspondingAccountInDb =
+            accountsInDb.FirstOrDefault(x => x.Currency.ToString() == coinbaseProAccount.Currency);
 
-        var valueInNok = (int)correspondingCoinbaseProAccount.Balance * exchangeRate.NOKRate;
-
-        dbAccount.Balance = valueInNok;
-
-        _dbRepository.QueueUpdate<Account, AccountDto>(dbAccount);
+        if (correspondingAccountInDb == null)
+        {
+            correspondingAccountInDb = new AccountDto
+            {
+                Currency = coinbaseProAccount.Currency,
+                Balance = coinbaseProAccount.Balance * exchangeRate.NOKRate,
+                Exchange = "CoinbasePro"
+            };
+            
+            _dbRepository.QueueAdd<Account, AccountDto>(correspondingAccountInDb);
+        }
+        else
+        {
+            correspondingAccountInDb.Balance = coinbaseProAccount.Balance * exchangeRate.NOKRate;
+            _dbRepository.QueueUpdate<Account, AccountDto>(correspondingAccountInDb);
+        }
     }
 }

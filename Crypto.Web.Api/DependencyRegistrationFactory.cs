@@ -18,7 +18,7 @@ public class DependencyRegistrationFactory : DependencyRegistrationFactory<Crypt
     {
         serviceCollection.TryAddTransient<IExchangeRateProvider, ExchangeRateProvider>();
         serviceCollection.TryAddTransient<IAccountProvider, AccountProvider>();
-        serviceCollection.TryAddTransient<IAccountBalanceProvider, AccountBalanceProvider>();
+        serviceCollection.TryAddTransient<IAssetHistoryProvider, AssetHistoryProvider>();
         serviceCollection.AddAutoMapper(c =>
         {
             c.AddEntityMappingProfiles();

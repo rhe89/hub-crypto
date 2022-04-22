@@ -21,5 +21,5 @@ public class Account : EntityBase
     public string Exchange { get; set; }
 
     [UsedImplicitly]
-    public ICollection<AccountBalance> Assets { get; set; }
+    public ICollection<Asset> Assets { get; set; }
 }

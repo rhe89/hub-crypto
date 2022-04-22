@@ -15,7 +15,7 @@ public class CryptoDbContext : HubDbContext
         builder.Entity<Account>()
             .ToTable(schema: "dbo", name: "Account");
 
-        builder.Entity<AccountBalance>()
+        builder.Entity<Asset>()
             .ToTable(schema: "dbo", name: "Asset");
         
         builder.Entity<ExchangeRate>()

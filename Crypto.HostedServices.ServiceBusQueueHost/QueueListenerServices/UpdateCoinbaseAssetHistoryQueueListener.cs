@@ -7,11 +7,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Crypto.HostedServices.ServiceBusQueueHost.QueueListenerServices;
 
-public class UpdateCoinbaseAccountsBalanceHistoryQueueListener : ServiceBusHostedService
+public class UpdateCoinbaseAssetHistoryQueueListener : ServiceBusHostedService
 {
-    public UpdateCoinbaseAccountsBalanceHistoryQueueListener(ILogger<UpdateCoinbaseAccountsBalanceHistoryQueueListener> logger, 
+    public UpdateCoinbaseAssetHistoryQueueListener(ILogger<UpdateCoinbaseAssetHistoryQueueListener> logger, 
         IConfiguration configuration,
-        UpdateCoinbaseAccountBalanceHistoryCommand command, 
+        UpdateCoinbaseAssetHistoryCommand command, 
         IQueueProcessor queueProcessor,
         TelemetryClient telemetryClient) : base(logger, 
         configuration,

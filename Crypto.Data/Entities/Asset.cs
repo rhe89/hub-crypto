@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 namespace Crypto.Data.Entities;
 
 [UsedImplicitly]
-public class AccountBalance : EntityBase
+public class Asset : EntityBase
 {
     [UsedImplicitly]
     [Column]

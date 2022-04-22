@@ -19,10 +19,10 @@ public class DependencyRegistrationFactory : DependencyRegistrationFactory<Crypt
     {
         serviceCollection.AddSingleton<IMessageSender, MessageSender>();
         serviceCollection.AddSingleton<IUpdateCoinbaseProAccountsCommandHandler, UpdateCoinbaseProAccountsCommandHandler>();
-        serviceCollection.AddSingleton<IUpdateCoinbaseProAccountBalanceHistoryCommandHandler, UpdateCoinbaseProAccountBalanceHistoryCommandHandler>();
+        serviceCollection.AddSingleton<IUpdateCoinbaseProAssetHistoryCommandHandler, UpdateCoinbaseProAssetHistoryCommandHandler>();
         serviceCollection.AddSingleton<IUpdateCoinbaseExchangeRatesCommandHandler, UpdateCoinbaseExchangeRatesCommandHandler>();
         serviceCollection.AddSingleton<IUpdateCoinbaseAccountsCommandHandler, UpdateCoinbaseAccountsCommandHandler>();
-        serviceCollection.AddSingleton<IUpdateCoinbaseAccountBalanceHistoryCommandHandler, UpdateCoinbaseAccountBalanceHistoryCommandHandler>();
+        serviceCollection.AddSingleton<IUpdateCoinbaseAssetHistoryCommandHandler, UpdateCoinbaseAssetHistoryCommandHandler>();
         
         serviceCollection.AddSingleton<IExchangeRateProvider, ExchangeRateProvider>();
         serviceCollection.AddSingleton<IExchangeRateService, ExchangeRateService>();
@@ -38,15 +38,15 @@ public class DependencyRegistrationFactory : DependencyRegistrationFactory<Crypt
     protected override void AddQueueListenerServices(IServiceCollection serviceCollection, IConfiguration configuration)
     {
         serviceCollection.AddTransient<UpdateCoinbaseProAccountsCommand>();
-        serviceCollection.AddTransient<UpdateCoinbaseProAccountBalanceHistoryCommand>();
+        serviceCollection.AddTransient<UpdateCoinbaseProAssetHistoryCommand>();
         serviceCollection.AddTransient<UpdateCoinbaseAccountsCommand>();
-        serviceCollection.AddTransient<UpdateCoinbaseAccountBalanceHistoryCommand>();
+        serviceCollection.AddTransient<UpdateCoinbaseAssetHistoryCommand>();
         serviceCollection.AddTransient<UpdateCoinbaseExchangeRatesCommand>();  
 
         serviceCollection.AddHostedService<UpdateCoinbaseProAccountsQueueListener>();
-        serviceCollection.AddHostedService<UpdateCoinbaseProAccountsBalanceHistoryQueueListener>();
+        serviceCollection.AddHostedService<UpdateCoinbaseProAssetHistoryQueueListener>();
         serviceCollection.AddHostedService<UpdateCoinbaseAccountsQueueListener>();
-        serviceCollection.AddHostedService<UpdateCoinbaseAccountsBalanceHistoryQueueListener>();
+        serviceCollection.AddHostedService<UpdateCoinbaseAssetHistoryQueueListener>();
         serviceCollection.AddHostedService<UpdateCoinbaseExchangeRatesQueueListener>();
     }
 }

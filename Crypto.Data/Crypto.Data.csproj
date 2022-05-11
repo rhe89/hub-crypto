@@ -4,9 +4,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Hub.Shared.DataContracts.Crypto" Version="6.1.2" />
-		<PackageReference Include="Hub.Shared.Storage.Repository.Core" Version="6.1.2" />
-		<PackageReference Include="Hub.Shared.Storage.Repository" Version="6.1.2" />
+		<PackageReference Include="Hub.Shared.DataContracts.Crypto" Version="6.1.3" />
+		<PackageReference Include="Hub.Shared.Storage.Repository.Core" Version="6.1.3" />
+		<PackageReference Include="Hub.Shared.Storage.Repository" Version="6.1.3" />
 	</ItemGroup>
 
 	<ItemGroup>

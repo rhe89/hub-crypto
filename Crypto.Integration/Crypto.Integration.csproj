@@ -7,8 +7,8 @@
 		<PackageReference Include="GDAX.Api.ClientLibrary" Version="1.0.51" />
 		<PackageReference Include="Coinbase" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
-		<PackageReference Include="Hub.Shared.Web.Http" Version="6.1.2" />
-		<PackageReference Include="Hub.Shared.DataContracts.Crypto" Version="6.1.2" />
+		<PackageReference Include="Hub.Shared.Web.Http" Version="6.1.3" />
+		<PackageReference Include="Hub.Shared.DataContracts.Crypto" Version="6.1.3" />
 	</ItemGroup>
 
 	<ItemGroup>

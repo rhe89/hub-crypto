@@ -1,22 +1,20 @@
 using Crypto.Data;
+using Crypto.Data.AutoMapper;
+using Crypto.Providers;
 using Hub.Shared.Web.Api;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Crypto.Web.Api;
+var builder = WebApiBuilder.CreateWebApplicationBuilder<CryptoDbContext>(args, "SQL_DB_CRYPTO");
 
-public static class Program
+builder.Services.TryAddTransient<IExchangeRateProvider, ExchangeRateProvider>();
+builder.Services.TryAddTransient<IAccountProvider, AccountProvider>();
+builder.Services.TryAddTransient<IAssetHistoryProvider, AssetHistoryProvider>();
+builder.Services.AddAutoMapper(c =>
 {
-    public static void Main(string[] args)
-    {
-        CreateHostBuilder(args)
-            .Build()
-            .Run();
-    }
+    c.AddEntityMappingProfiles();
+});
 
-    private static IHostBuilder CreateHostBuilder(string[] args)
-    {
-        return HostBuilder<DependencyRegistrationFactory, CryptoDbContext>
-            .Create(args);
-
-    }
-}
+builder
+    .BuildApp()
+    .Run();

@@ -44,15 +44,15 @@ public class UpdateCoinbaseExchangeRatesCommandHandler : IUpdateCoinbaseExchange
 
             try
             {
-                await _exchangeRateService.UpdateExchangeRate(exchangeRateInDb);
+                await _exchangeRateService.QueueUpdateExchangeRate(exchangeRateInDb);
             }
             catch (Exception e)
             {
                 _logger.LogError(e, "Failed updating exchange rate for currency {Currency}", exchangeRateInDb.Currency);
             }
         }
-            
-        await _dbRepository.ExecuteQueueAsync();
+
+        await _exchangeRateService.FinishUpdateExchangeRates();
             
         _logger.LogInformation("Finished updating {Count} exchange rates", counter);
     }

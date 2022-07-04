@@ -14,7 +14,8 @@ namespace Crypto.Services;
 public interface IExchangeRateService
 {
     Task<ExchangeRateDto?> GetExchangeRate(string currency);
-    Task UpdateExchangeRate(ExchangeRateDto exchangeRateInDb);
+    Task QueueUpdateExchangeRate(ExchangeRateDto exchangeRateInDb);
+    Task FinishUpdateExchangeRates();
     Task<ExchangeRateDto?> CreateOrUpdateExchangeRate(string currency);
 }
 
@@ -81,7 +82,7 @@ public class ExchangeRateService : IExchangeRateService
                 EURRate = eurRate
             };
             
-            exchangeRate = _dbRepository.Add<ExchangeRate, ExchangeRateDto>(exchangeRate);
+            _dbRepository.QueueAdd<ExchangeRate, ExchangeRateDto>(exchangeRate);
         }
 
         await _dbRepository.ExecuteQueueAsync();
@@ -89,7 +90,7 @@ public class ExchangeRateService : IExchangeRateService
         return exchangeRate;
     }
     
-    public async Task UpdateExchangeRate(ExchangeRateDto exchangeRateInDb)
+    public async Task QueueUpdateExchangeRate(ExchangeRateDto exchangeRateInDb)
     {
         var exchangeRateFromCoinbase =
             await _coinbaseConnector.GetExchangeRatesForCurrency(exchangeRateInDb.Currency);
@@ -109,5 +110,10 @@ public class ExchangeRateService : IExchangeRateService
         exchangeRateInDb.EURRate = eurRate;
 
         _dbRepository.QueueUpdate<ExchangeRate, ExchangeRateDto>(exchangeRateInDb);
+    }
+
+    public async Task FinishUpdateExchangeRates()
+    {
+        await _dbRepository.ExecuteQueueAsync();
     }
 }

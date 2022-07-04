@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Crypto.Data.Entities;
@@ -42,15 +43,20 @@ public class UpdateCoinbaseAccountsCommandHandler : IUpdateCoinbaseAccountsComma
         
         var coinbaseAccountsCount = coinbaseAccounts.Count;
 
-        var counter = 1;
+        var counter = 0;
         
         _logger.LogInformation("Updating {Count} Coinbase-accounts", coinbaseAccountsCount);
+        
+        var timer = new Stopwatch();
+        
+        timer.Start();
         
         foreach (var coinbaseAccount in coinbaseAccounts)
         {
             try
             {
                 await UpdateAccount(coinbaseAccount, accountsInDb);
+                
                 counter++;
             }
             catch (Exception e)
@@ -61,7 +67,9 @@ public class UpdateCoinbaseAccountsCommandHandler : IUpdateCoinbaseAccountsComma
 
         await _dbRepository.ExecuteQueueAsync();
 
-        _logger.LogInformation("Done updating {Counter} of {Total} Coinbase-accounts", counter, coinbaseAccountsCount);
+        timer.Stop();
+
+        _logger.LogInformation("Finished updating {Counter} of {Total} Coinbase-accounts in {Seconds} seconds", counter, coinbaseAccountsCount, timer.Elapsed.TotalSeconds);
     }
 
     private async Task UpdateAccount(Coinbase.Models.Account coinbaseAccount, IEnumerable<AccountDto> accountsInDb)

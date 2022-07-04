@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Crypto.Data.Entities;
@@ -34,7 +35,11 @@ public class UpdateCoinbaseProAssetHistoryCommandHandler : IUpdateCoinbaseProAss
 
         _logger.LogInformation("Updating {Count} CoinbasePro-accounts", coinbaseProAccountsCount);
 
-        var counter = 1;
+        var counter = 0;
+        
+        var timer = new Stopwatch();
+        
+        timer.Start();
 
         foreach (var account in coinbaseProAccounts)
         {
@@ -49,12 +54,16 @@ public class UpdateCoinbaseProAssetHistoryCommandHandler : IUpdateCoinbaseProAss
             else
             {
                 UpdateAssetHistory(assetHistoryForCurrentDay, account);
-            }            
+            }
+
+            counter++;
         }
             
         await _dbRepository.ExecuteQueueAsync();
             
-        _logger.LogInformation("Finished updating CoinbasePro asset history for {Count} of {Total} accounts", counter, coinbaseProAccountsCount);
+        timer.Stop();
+
+        _logger.LogInformation("Finished updating CoinbasePro asset history for {Count} of {Total} accounts in {Seconds} seconds", counter, coinbaseProAccountsCount, timer.Elapsed.TotalSeconds);
 
     }
 

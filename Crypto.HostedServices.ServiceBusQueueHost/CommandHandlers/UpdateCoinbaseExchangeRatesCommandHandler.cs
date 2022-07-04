@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Crypto.Data.Entities;
 using Crypto.Services;
@@ -34,9 +35,13 @@ public class UpdateCoinbaseExchangeRatesCommandHandler : IUpdateCoinbaseExchange
         
         var exchangeRatesCount = exchangeRatesInDb.Count;
 
-        var counter = 1;
+        var counter = 0;
         
         _logger.LogInformation("Updating {Count} exchange rates", exchangeRatesCount);
+        
+        var timer = new Stopwatch();
+        
+        timer.Start();
         
         foreach (var exchangeRateInDb in exchangeRatesInDb)
         {
@@ -54,7 +59,9 @@ public class UpdateCoinbaseExchangeRatesCommandHandler : IUpdateCoinbaseExchange
         }
 
         await _exchangeRateService.FinishUpdateExchangeRates();
-            
-        _logger.LogInformation("Finished updating {Count} of {exchangeRatesCount} exchange rates", counter, exchangeRatesCount);
+
+        timer.Stop();
+
+        _logger.LogInformation("Finished updating {Count} of {Total} exchange rates in {Seconds} seconds", counter, exchangeRatesCount, timer.Elapsed.TotalSeconds);
     }
 }

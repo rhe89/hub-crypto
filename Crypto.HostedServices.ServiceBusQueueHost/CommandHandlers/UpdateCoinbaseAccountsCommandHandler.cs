@@ -39,18 +39,19 @@ public class UpdateCoinbaseAccountsCommandHandler : IUpdateCoinbaseAccountsComma
             .WhereAsync<Account, AccountDto>(x => x.Exchange == "Coinbase");
             
         var coinbaseAccounts = await _coinbaseConnector.GetAccounts();
-            
+        
         var coinbaseAccountsCount = coinbaseAccounts.Count;
 
         var counter = 1;
-
+        
+        _logger.LogInformation("Updating {Count} Coinbase-accounts", coinbaseAccountsCount);
+        
         foreach (var coinbaseAccount in coinbaseAccounts)
         {
-            _logger.LogInformation("Updating Coinbase-account {AccountName} ({Counter} of {Total})", coinbaseAccount.Currency.Name, counter++, coinbaseAccountsCount);
-
             try
             {
                 await UpdateAccount(coinbaseAccount, accountsInDb);
+                counter++;
             }
             catch (Exception e)
             {
@@ -60,7 +61,7 @@ public class UpdateCoinbaseAccountsCommandHandler : IUpdateCoinbaseAccountsComma
 
         await _dbRepository.ExecuteQueueAsync();
 
-        _logger.LogInformation("Done updating {Counter} Coinbase-accounts", counter);
+        _logger.LogInformation("Done updating {Counter} of {Total} Coinbase-accounts", counter, coinbaseAccountsCount);
     }
 
     private async Task UpdateAccount(Coinbase.Models.Account coinbaseAccount, IEnumerable<AccountDto> accountsInDb)

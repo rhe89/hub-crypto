@@ -44,14 +44,15 @@ public class UpdateCoinbaseProAccountsCommandHandler : IUpdateCoinbaseProAccount
         var coinbaseProAccountsCount = coinbaseProAccounts.Count;
 
         var counter = 1;
+        
+        _logger.LogInformation("Updating {Count} CoinbasePro-accounts", coinbaseProAccountsCount);
 
         foreach (var coinbaseProAccount in coinbaseProAccounts)
         {
-            _logger.LogInformation("Updating CoinbasePro-account {Number} of {AccountsCount}: {AccountName}", counter++, coinbaseProAccountsCount, coinbaseProAccount.Currency);
-
             try
             {
                 await UpdateAccount(coinbaseProAccount, accountsInDb);
+                counter++;
             }
             catch (Exception e)
             {
@@ -61,7 +62,7 @@ public class UpdateCoinbaseProAccountsCommandHandler : IUpdateCoinbaseProAccount
 
         await _dbRepository.ExecuteQueueAsync();
 
-        _logger.LogInformation("Done updating CoinbasePro-accounts");
+        _logger.LogInformation("Done updating {Counter} of {Total} CoinbasePro-accounts", counter, coinbaseProAccountsCount);
     }
 
     private async Task UpdateAccount(CoinbasePro.Services.Accounts.Models.Account coinbaseProAccount, IEnumerable<AccountDto> accountsInDb)

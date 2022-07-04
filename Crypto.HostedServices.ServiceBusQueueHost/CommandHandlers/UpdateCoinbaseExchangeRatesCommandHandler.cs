@@ -31,20 +31,21 @@ public class UpdateCoinbaseExchangeRatesCommandHandler : IUpdateCoinbaseExchange
     public async Task UpdateExchangeRates()
     {
         var exchangeRatesInDb = await _dbRepository.AllAsync<ExchangeRate, ExchangeRateDto>();
-            
-        _logger.LogInformation("Got {Count} exchange rates from database", exchangeRatesInDb.Count);
-            
+        
         var exchangeRatesCount = exchangeRatesInDb.Count;
 
         var counter = 1;
-            
+        
+        _logger.LogInformation("Updating {Count} exchange rates", exchangeRatesCount);
+        
         foreach (var exchangeRateInDb in exchangeRatesInDb)
         {
-            _logger.LogInformation("Updating {Currency} ({Counter} of {Total})", exchangeRateInDb.Currency, counter++, exchangeRatesCount);
 
             try
             {
                 await _exchangeRateService.QueueUpdateExchangeRate(exchangeRateInDb);
+
+                counter++;
             }
             catch (Exception e)
             {
@@ -54,6 +55,6 @@ public class UpdateCoinbaseExchangeRatesCommandHandler : IUpdateCoinbaseExchange
 
         await _exchangeRateService.FinishUpdateExchangeRates();
             
-        _logger.LogInformation("Finished updating {Count} exchange rates", counter);
+        _logger.LogInformation("Finished updating {Count} of {exchangeRatesCount} exchange rates", counter, exchangeRatesCount);
     }
 }

@@ -27,31 +27,34 @@ public class UpdateCoinbaseAssetHistoryCommandHandler : IUpdateCoinbaseAssetHist
         
     public async Task UpdateAssetHistory()
     {
-        var accountsInDb = await _dbRepository
+        var coinbaseAccounts = await _dbRepository
             .WhereAsync<Account, AccountDto>(x => x.Exchange == "Coinbase");
         
-        foreach (var account in accountsInDb)
-        {
-            var now = DateTime.Now;
+        var coinbaseAccountsCount = coinbaseAccounts.Count;
+        
+        _logger.LogInformation("Updating Coinbase asset balance history for {Count} accounts", coinbaseAccountsCount);
 
-            _logger.LogInformation("Updating Coinbase-account asset history for account {Account}", account.Currency);
-                
-            var assetHistoryForCurrentDay = GetAssetHistoryForCurrentDay(account, now);
+        var counter = 1;
+
+        foreach (var coinbaseAccount in coinbaseAccounts)
+        {
+            var assetHistoryForCurrentDay = GetAssetHistoryForCurrentDay(coinbaseAccount, DateTime.Now);
             
             if (assetHistoryForCurrentDay == null)
             {
-                AddAssetHistory(account);
+                AddAssetHistory(coinbaseAccount);
             }
             else
             {
-                UpdateAssetHistory(assetHistoryForCurrentDay, account);
-            }            
+                UpdateAssetHistory(assetHistoryForCurrentDay, coinbaseAccount);
+            }
+
+            counter++;
         }
             
         await _dbRepository.ExecuteQueueAsync();
             
-        _logger.LogInformation("Finished updating Coinbase-account balance history");
-
+        _logger.LogInformation("Finished updating Coinbase asset history for {Count} of {Total} accounts", counter, coinbaseAccountsCount);
     }
 
     private AssetHistoryDto GetAssetHistoryForCurrentDay(AccountDto account, DateTime now)

@@ -9,8 +9,8 @@ public class AccountMapperProfile : Profile
     public AccountMapperProfile()
     {
         CreateMap<Account, AccountDto>()
-            .ForMember(dest => dest.Balance,
-                opt => opt.MapFrom(x => x.CurrentBalance))
-            .ReverseMap();
+            .ReverseMap()
+            .ForMember(x => x.Currency, opt => opt.Ignore())
+            .ForMember(x => x.Wallet, opt => opt.Ignore());
     }
 }

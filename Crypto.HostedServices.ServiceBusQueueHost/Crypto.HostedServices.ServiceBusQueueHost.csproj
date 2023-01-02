@@ -4,9 +4,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Hub.Shared.DataContracts.Crypto" Version="6.2.0" />
-		<PackageReference Include="Hub.Shared.HostedServices.ServiceBusQueue" Version="6.2.0" />
-		<PackageReference Include="Hub.Shared.Storage.ServiceBus" Version="6.2.0" />
+		<PackageReference Include="Hub.Shared.DataContracts.Crypto" Version="7.3" />
+		<PackageReference Include="Hub.Shared.HostedServices.ServiceBusQueue" Version="7.3" />
+		<PackageReference Include="Hub.Shared.Storage.ServiceBus" Version="7.3" />
 	</ItemGroup>
 
 	<ItemGroup>

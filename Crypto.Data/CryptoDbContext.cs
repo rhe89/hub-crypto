@@ -13,12 +13,18 @@ public class CryptoDbContext : HubDbContext
         base.OnModelCreating(builder);
 
         builder.Entity<Account>()
-            .ToTable(schema: "dbo", name: "Account");
-
-        builder.Entity<Asset>()
-            .ToTable(schema: "dbo", name: "Asset");
+            .ToTable(schema: "dbo", name: "AccountTmp");
         
-        builder.Entity<ExchangeRate>()
-            .ToTable(schema: "dbo", name: "ExchangeRate");
+        builder.Entity<AccountBalance>()
+            .ToTable(schema: "dbo", name: "AccountBalance");
+        
+        builder.Entity<Currency>()
+            .ToTable(schema: "dbo", name: "Currency");
+        
+        builder.Entity<CurrencyPrice>()
+            .ToTable(schema: "dbo", name: "CurrencyPrice");
+
+        builder.Entity<Wallet>()
+            .ToTable(schema: "dbo", name: "Wallet");
     }
 }

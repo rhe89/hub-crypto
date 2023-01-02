@@ -1,6 +1,5 @@
 ﻿using Crypto.Data;
 using Crypto.Data.AutoMapper;
-using Crypto.HostedServices.ServiceBusQueueHost.CommandHandlers;
 using Crypto.HostedServices.ServiceBusQueueHost.Commands;
 using Crypto.HostedServices.ServiceBusQueueHost.QueueListenerServices;
 using Crypto.Integration;
@@ -16,33 +15,18 @@ ServiceBusHostBuilder
     .ConfigureServices(serviceCollection =>
     {
         serviceCollection.AddSingleton<IMessageSender, MessageSender>();
-        serviceCollection.AddSingleton<IUpdateCoinbaseProAccountsCommandHandler, UpdateCoinbaseProAccountsCommandHandler>();
-        serviceCollection.AddSingleton<IUpdateCoinbaseProAssetHistoryCommandHandler, UpdateCoinbaseProAssetHistoryCommandHandler>();
-        serviceCollection.AddSingleton<IUpdateCoinbaseExchangeRatesCommandHandler, UpdateCoinbaseExchangeRatesCommandHandler>();
-        serviceCollection.AddSingleton<IUpdateCoinbaseAccountsCommandHandler, UpdateCoinbaseAccountsCommandHandler>();
-        serviceCollection.AddSingleton<IUpdateCoinbaseAssetHistoryCommandHandler, UpdateCoinbaseAssetHistoryCommandHandler>();
-        
-        serviceCollection.AddSingleton<IExchangeRateProvider, ExchangeRateProvider>();
-        serviceCollection.AddSingleton<IExchangeRateService, ExchangeRateService>();
-        serviceCollection.AddSingleton<ICoinbaseProConnector, CoinbaseProConnector>();
-        serviceCollection.AddSingleton<ICoinbaseConnector, CoinbaseConnector>();
+        serviceCollection.AddSingleton<ICurrencyService, CurrencyService>();
+        serviceCollection.AddSingleton<ICurrencyProvider, CurrencyProvider>();
+        serviceCollection.AddSingleton<ICurrencyPriceProvider, CurrencyPriceProvider>();
+        serviceCollection.AddSingleton<ICoinMarketCapConnector, CoinMarketCapConnector>();
             
         serviceCollection.AddAutoMapper(c =>
         {
             c.AddEntityMappingProfiles();
         });
         
-        serviceCollection.AddTransient<UpdateCoinbaseProAccountsCommand>();
-        serviceCollection.AddTransient<UpdateCoinbaseProAssetHistoryCommand>();
-        serviceCollection.AddTransient<UpdateCoinbaseAccountsCommand>();
-        serviceCollection.AddTransient<UpdateCoinbaseAssetHistoryCommand>();
-        serviceCollection.AddTransient<UpdateCoinbaseExchangeRatesCommand>();  
-
-        serviceCollection.AddHostedService<UpdateCoinbaseProAccountsQueueListener>();
-        serviceCollection.AddHostedService<UpdateCoinbaseProAssetHistoryQueueListener>();
-        serviceCollection.AddHostedService<UpdateCoinbaseAccountsQueueListener>();
-        serviceCollection.AddHostedService<UpdateCoinbaseAssetHistoryQueueListener>();
-        serviceCollection.AddHostedService<UpdateCoinbaseExchangeRatesQueueListener>();
+        serviceCollection.AddSingleton<UpdateCurrencyPricesCommand>();
+        serviceCollection.AddHostedService<UpdateCurrencyPricesQueueListener>();
     })
     .Build()
     .Run();

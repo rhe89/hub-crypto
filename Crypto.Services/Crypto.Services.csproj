@@ -4,7 +4,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Hub.Shared.DataContracts.Crypto" Version="6.2.0" />
+		<PackageReference Include="Hub.Shared.DataContracts.Crypto" Version="7.3" />
+		<PackageReference Include="Hub.Shared.Utilities" Version="7.3" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -7,9 +7,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApiBuilder.CreateWebApplicationBuilder<CryptoDbContext>(args, "SQL_DB_CRYPTO");
 
-builder.Services.TryAddTransient<IExchangeRateProvider, ExchangeRateProvider>();
 builder.Services.TryAddTransient<IAccountProvider, AccountProvider>();
-builder.Services.TryAddTransient<IAssetHistoryProvider, AssetHistoryProvider>();
 builder.Services.AddAutoMapper(c =>
 {
     c.AddEntityMappingProfiles();

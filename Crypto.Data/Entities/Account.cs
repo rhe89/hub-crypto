@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Hub.Shared.Storage.Repository.Core;
 using JetBrains.Annotations;
 
@@ -10,16 +9,19 @@ public class Account : EntityBase
 {
     [UsedImplicitly]
     [Column]
-    public string Currency { get; set; }
-
-    [UsedImplicitly]
-    [Column]
-    public decimal CurrentBalance { get; set; }
+    public string Name { get; set; }
     
     [UsedImplicitly]
     [Column]
-    public string Exchange { get; set; }
+    public long WalletId { get; set; }
+    
+    [UsedImplicitly]
+    [Column]
+    public long CurrencyId { get; set; }
 
     [UsedImplicitly]
-    public ICollection<Asset> Assets { get; set; }
+    public virtual Wallet Wallet { get; set; }
+    
+    [UsedImplicitly]
+    public virtual Currency Currency { get; set; }
 }

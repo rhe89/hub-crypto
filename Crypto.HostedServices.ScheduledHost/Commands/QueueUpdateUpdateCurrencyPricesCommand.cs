@@ -6,11 +6,11 @@ using Hub.Shared.Storage.ServiceBus;
 
 namespace Crypto.HostedServices.ScheduledHost.Commands;
 
-public class QueueUpdateCoinbaseExchangeRatesCommand : ScheduledCommand
+public class QueueUpdateUpdateCurrencyPricesCommand : ScheduledCommand
 {
     private readonly IMessageSender _messageSender;
 
-    public QueueUpdateCoinbaseExchangeRatesCommand(ICommandConfigurationProvider commandConfigurationProvider,
+    public QueueUpdateUpdateCurrencyPricesCommand(ICommandConfigurationProvider commandConfigurationProvider,
         ICommandConfigurationFactory commandConfigurationFactory,
         IMessageSender messageSender) : base(commandConfigurationProvider, commandConfigurationFactory)
     {
@@ -19,7 +19,7 @@ public class QueueUpdateCoinbaseExchangeRatesCommand : ScheduledCommand
 
     public override async Task Execute(CancellationToken cancellationToken)
     {
-        await _messageSender.AddToQueue(QueueNames.UpdateCoinbaseExchangeRates);
+        await _messageSender.AddToQueue(QueueNames.UpdateCurrencyPrices);
     }
 
         

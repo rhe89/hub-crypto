@@ -64,6 +64,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.Services", "Crypto.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hub.Shared.AppConfiguration", "..\hub-shared\Hub.Shared.AppConfiguration\Hub.Shared.AppConfiguration.csproj", "{5915F0C7-BA49-4DC4-9560-DBD4AD641302}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hub.Shared.DataContracts.Spreadsheet", "..\hub-shared\Hub.Shared.DataContracts\Hub.Shared.DataContracts.Spreadsheet\Hub.Shared.DataContracts.Spreadsheet.csproj", "{3088A6CA-01D7-48DB-93A0-563DD466048C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hub.Shared.Utilities", "..\hub-shared\Hub.Shared.Utilities\Hub.Shared.Utilities.csproj", "{8024E235-8DDF-4E1B-8957-D480A1EBBFFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -166,6 +170,14 @@ Global
 		{5915F0C7-BA49-4DC4-9560-DBD4AD641302}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5915F0C7-BA49-4DC4-9560-DBD4AD641302}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5915F0C7-BA49-4DC4-9560-DBD4AD641302}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3088A6CA-01D7-48DB-93A0-563DD466048C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3088A6CA-01D7-48DB-93A0-563DD466048C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3088A6CA-01D7-48DB-93A0-563DD466048C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3088A6CA-01D7-48DB-93A0-563DD466048C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8024E235-8DDF-4E1B-8957-D480A1EBBFFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8024E235-8DDF-4E1B-8957-D480A1EBBFFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8024E235-8DDF-4E1B-8957-D480A1EBBFFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8024E235-8DDF-4E1B-8957-D480A1EBBFFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{78DC9B62-21DC-4511-AC01-63DAFF5D6A2C} = {B328846E-B016-4808-9D8E-F7D986C53CD6}
@@ -196,5 +208,7 @@ Global
 		{5A0298DD-6DD8-42E1-AFCE-CB845935CACB} = {8B44301B-E024-4DD5-8378-2949DDF2A743}
 		{D04BE4B6-B178-4349-981E-5CC2470DAF1E} = {5FB32243-81CA-4AE1-B29B-BCD511C35B33}
 		{5915F0C7-BA49-4DC4-9560-DBD4AD641302} = {03B13645-89A1-43E0-823B-F98A297C1D34}
+		{3088A6CA-01D7-48DB-93A0-563DD466048C} = {8B44301B-E024-4DD5-8378-2949DDF2A743}
+		{8024E235-8DDF-4E1B-8957-D480A1EBBFFF} = {03B13645-89A1-43E0-823B-F98A297C1D34}
 	EndGlobalSection
 EndGlobal

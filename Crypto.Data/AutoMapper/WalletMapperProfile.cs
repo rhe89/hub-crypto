@@ -4,11 +4,11 @@ using Hub.Shared.DataContracts.Crypto.Dto;
 
 namespace Crypto.Data.AutoMapper;
 
-public class ExchangeRateMapperProfile : Profile
+public class WalletMapperProfile : Profile
 {
-    public ExchangeRateMapperProfile()
+    public WalletMapperProfile()
     {
-        CreateMap<ExchangeRate, ExchangeRateDto>()
+        CreateMap<Wallet, WalletDto>()
             .ReverseMap();
     }
 }

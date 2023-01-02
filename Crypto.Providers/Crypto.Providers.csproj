@@ -4,6 +4,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Hub.Shared.Utilities" Version="7.3" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\Crypto.Shared\Crypto.Shared.csproj" />
 		<ProjectReference Include="..\Crypto.Data\Crypto.Data.csproj" />
 	</ItemGroup>

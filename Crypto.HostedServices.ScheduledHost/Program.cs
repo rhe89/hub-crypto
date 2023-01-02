@@ -10,7 +10,7 @@ ScheduledHostBuilder
     .ConfigureServices(serviceCollection =>
     {
         serviceCollection.AddSingleton<IMessageSender, MessageSender>();
-        serviceCollection.AddSingleton<IScheduledCommand, QueueUpdateCoinbaseExchangeRatesCommand>();
+        serviceCollection.AddSingleton<IScheduledCommand, QueueUpdateUpdateCurrencyPricesCommand>();
     })
     .Build()
     .Run();
